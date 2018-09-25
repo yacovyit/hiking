@@ -97,7 +97,7 @@ public class RestaurantDetailActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_restaurant_detail);
+        setContentView(R.layout.activity_trek_detail);
         ButterKnife.bind(this);
 
         // Get restaurant ID from extras
