@@ -273,8 +273,8 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onRestaurantSelected(DocumentSnapshot restaurant) {
         // Go to the details page for the selected restaurant
-        Intent intent = new Intent(this, RestaurantDetailActivity.class);
-        intent.putExtra(RestaurantDetailActivity.KEY_RESTAURANT_ID, restaurant.getId());
+        Intent intent = new Intent(this, TrekDetailActivity.class);
+        intent.putExtra(TrekDetailActivity.KEY_RESTAURANT_ID, restaurant.getId());
 
         startActivity(intent);
     }
