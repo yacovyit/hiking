@@ -67,7 +67,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/icon_price"
+            android:id="@+id/icon_trek_date"
             style="@style/AppTheme.FilterIcon"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
@@ -79,7 +79,7 @@
             android:id="@+id/spinner_price"
             style="@style/AppTheme.FilterSpinner"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/icon_price"
+            android:layout_toRightOf="@+id/icon_trek_date"
             android:entries="@array/trek_date" />
 
     </RelativeLayout>

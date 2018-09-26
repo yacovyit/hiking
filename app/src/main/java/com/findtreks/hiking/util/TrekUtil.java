@@ -15,12 +15,18 @@
  */
  package com.findtreks.hiking.util;
 
+import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Context;
+import android.widget.DatePicker;
+
+import com.findtreks.hiking.MainActivity;
 import com.findtreks.hiking.R;
 import com.findtreks.hiking.TrekApplication;
 import com.findtreks.hiking.model.Trek;
 
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Locale;
 import java.util.Random;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -146,5 +152,34 @@ public class TrekUtil {
         int ind = random.nextInt(array.length);
         return array[ind];
     }
+    public static java.util.Date getDateFromDatePicker(DatePicker datePicker){
+        int day = datePicker.getDayOfMonth();
+        int month = datePicker.getMonth();
+        int year =  datePicker.getYear();
 
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month, day);
+
+        return calendar.getTime();
+    }
+    public static void setDateToDatePicker(DatePicker datePicker, Calendar c){
+
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH);
+        int day = c.get(Calendar.DAY_OF_MONTH);
+
+        // set current date into datepicker
+        datePicker.init(year, month, day, null);
+    }
+    public static DatePickerDialog dateDialogFactory(Activity activity,DatePickerDialog.OnDateSetListener listener){
+        Calendar c = Calendar.getInstance();
+        int startYear = c.get(Calendar.YEAR);
+        int startMonth = c.get(Calendar.MONTH);
+        int startDay = c.get(Calendar.DAY_OF_MONTH);
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                activity, listener, startYear, startMonth, startDay);
+        datePickerDialog.getDatePicker().init(startYear, startMonth, startDay, null);
+        datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+        return datePickerDialog;
+    }
 }

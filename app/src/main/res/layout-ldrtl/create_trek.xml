@@ -63,13 +63,14 @@
 
     </RelativeLayout>
 
-    <!-- Price -->
+
+    <!-- Trek Date -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/icon_price"
+            android:id="@+id/icon_trek_date"
             style="@style/AppTheme.FilterIcon"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
@@ -77,15 +78,14 @@
             android:tint="@color/greySecondary"
             app:srcCompat="@drawable/ic_today_white_24dp" />
 
-        <Spinner
-            android:id="@+id/spinner_price"
-            style="@style/AppTheme.FilterSpinner"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/icon_price"
-            android:entries="@array/trek_date" />
+        <Button
+            android:id="@+id/button_trek_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/trek_date"
+            android:layout_toRightOf="@+id/icon_trek_date"/>
 
     </RelativeLayout>
-
     <!-- Trek Details -->
     <RelativeLayout
         android:layout_width="match_parent"
@@ -103,6 +103,9 @@
         <EditText
             android:id="@+id/edit_trek_details"
             android:layout_centerVertical="true"
+            android:minLines="2"
+            android:maxLines="4"
+            android:maxLength="250"
             android:layout_toRightOf="@+id/icon_trek_details"
             android:hint="@string/hint_trek_details"
             android:layout_height="wrap_content"
@@ -133,7 +136,7 @@
 
 
         <Button
-            android:id="@+id/button_search"
+            android:id="@+id/button_create"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

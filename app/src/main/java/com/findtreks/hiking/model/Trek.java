@@ -17,6 +17,8 @@
 
 import com.google.firebase.firestore.IgnoreExtraProperties;
 
+import java.util.Date;
+
 /**
  * Trek POJO.
  */
@@ -36,17 +38,19 @@ public class Trek {
     private int price;
     private int numRatings;
     private double avgRating;
+    private long trekStartDate;
 
     public Trek() {}
 
     public Trek(String name, String city, String category, String photo,
-                int price, int numRatings, double avgRating) {
+                int price, int numRatings, double avgRating,long trekStartDate) {
         this.name = name;
         this.city = city;
         this.category = category;
         this.price = price;
         this.numRatings = numRatings;
         this.avgRating = avgRating;
+        this.trekStartDate = trekStartDate;
     }
 
     public String getName() {
@@ -103,5 +107,13 @@ public class Trek {
 
     public void setAvgRating(double avgRating) {
         this.avgRating = avgRating;
+    }
+
+    public long getTrekStartDate() {
+        return trekStartDate;
+    }
+
+    public void setTrekStartDate(long trekStartDate) {
+        this.trekStartDate = trekStartDate;
     }
 }

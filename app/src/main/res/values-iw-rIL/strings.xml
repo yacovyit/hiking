@@ -90,5 +90,6 @@
         <item>@string/region_item_7</item>
 
     </string-array>
+    <string name="trek_date">תאריך הטיול</string>
 
 </resources>

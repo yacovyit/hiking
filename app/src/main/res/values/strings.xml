@@ -42,20 +42,20 @@
     <string name="submit">Submit</string>
     <string name="filter_register_to_trek">Register to trek</string>
     <string name="hint_register">Thoughts about the trek?</string>
-    <string name="hint_trek_details" >Trek Details </string>
+    <string name="hint_trek_details">Trek Details </string>
 
-    <string name="category_item_1" >Easy</string>
-    <string name="category_item_2" >Moderate</string>
-    <string name="category_item_3" >Difficult</string>
-    <string name="category_item_4" >Extreme</string>
+    <string name="category_item_1">Easy</string>
+    <string name="category_item_2">Moderate</string>
+    <string name="category_item_3">Difficult</string>
+    <string name="category_item_4">Extreme</string>
 
-    <string name="region_item_1" >Jerusalem District</string>
-    <string name="region_item_2" >Northern District</string>
-    <string name="region_item_3" >Haifa District</string>
-    <string name="region_item_4" >Central District</string>
-    <string name="region_item_5" >Tel Aviv District</string>
-    <string name="region_item_6" >Southern District</string>
-    <string name="region_item_7" >Judea and Samaria Area</string>
+    <string name="region_item_1">Jerusalem District</string>
+    <string name="region_item_2">Northern District</string>
+    <string name="region_item_3">Haifa District</string>
+    <string name="region_item_4">Central District</string>
+    <string name="region_item_5">Tel Aviv District</string>
+    <string name="region_item_6">Southern District</string>
+    <string name="region_item_7">Judea and Samaria Area</string>
 
     <!-- Types of food I could think of in 5 minutes -->
     <string-array name="categories">
@@ -118,5 +118,7 @@
         <item>@string/sort_by_popularity</item>
         <item>@string/sort_by_time</item>
     </string-array>
+    <string name="title_activity_create_trek">CreateTrekActivity</string>
+    <string name="trek_date">Trek Date</string>
 
 </resources>

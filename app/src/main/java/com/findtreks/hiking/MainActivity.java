@@ -54,8 +54,8 @@ import static com.findtreks.hiking.Globals.ORDER_BY;
 
 public class MainActivity extends AppCompatActivity implements
         FilterDialogFragment.FilterListener,
-        TrekAdapter.OnTrekSelectedListener,
-        AddTrekDialogFragment.CreateTrekListener{
+        TrekAdapter.OnTrekSelectedListener
+        {
 
     private static final String TAG = "MainActivity";
 
@@ -82,9 +82,7 @@ public class MainActivity extends AppCompatActivity implements
     private Query mQuery;
 
     private FilterDialogFragment mFilterDialog;
-    private AddTrekDialogFragment mAddTrekDialogFragment;
     private TrekAdapter mAdapter;
-
     private MainActivityViewModel mViewModel;
 
     @Override
@@ -106,7 +104,6 @@ public class MainActivity extends AppCompatActivity implements
 
         // Filter Dialog
         mFilterDialog = new FilterDialogFragment();
-        mAddTrekDialogFragment = new AddTrekDialogFragment();
     }
 
     private void initFirestore() {
@@ -175,17 +172,11 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private void onAddTrekClicked() {
-       /* // Get a reference to the restaurants collection
-        CollectionReference restaurants = mFirestore.collection(COLLECTION_NAME);
 
-        for (int i = 0; i < 10; i++) {
-            // Get a random Trek POJO
-            Trek trek = TrekUtil.getRandom(this);
+        Intent intent = new Intent(this, CreateTrekActivity.class);
+        //intent.putExtra(TrekDetailActivity.KEY_TREK_ID, trek.getId());
 
-            // Add a new document to the restaurants collection
-            restaurants.add(trek);
-        }*/
-        mAddTrekDialogFragment.show(getSupportFragmentManager(), AddTrekDialogFragment.TAG);
+        startActivity(intent);
     }
 
     @Override
@@ -226,12 +217,6 @@ public class MainActivity extends AppCompatActivity implements
 
         // Save filters
         mViewModel.setFilters(filters);
-    }
-
-    @Override
-    public void onCreateTrek(Trek trek) {
-        CollectionReference treks = mFirestore.collection(COLLECTION_NAME);
-        treks.add(trek);
     }
 
     @Override
