@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:text="@string/create_trek"
-        tools:hint="@string/trek_details_hint" />
+        tools:hint="@string/hint_trek_details" />
 
     <!-- Food Type -->
     <RelativeLayout
@@ -98,15 +98,15 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="8dp"
             android:tint="@color/greySecondary"
-            app:srcCompat="@drawable/ic_today_white_24dp" />
+            app:srcCompat="@drawable/ic_create_white_24dp" />
 
         <EditText
             android:id="@+id/edit_trek_details"
-            style="@style/AppTheme.FilterSpinner"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/icon_trek_details"
-            android:hint=""
-            />
+            android:hint="@string/hint_trek_details"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent" />
 
     </RelativeLayout>
 

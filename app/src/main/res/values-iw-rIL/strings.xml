@@ -29,7 +29,7 @@
     <string name="value_any_time">בכל זמן</string>
     <string name="time_tomorrow">מחר</string>
     <string name="time_this_week">השבוע</string>
-    <string name="trek_details_hint" >פרטי הטיול</string>
+    <string name="hint_trek_details">פרטי הטיול</string>
     <string-array name="categories">
         <item>@string/value_any_category</item>
 

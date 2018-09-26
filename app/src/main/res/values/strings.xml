@@ -38,7 +38,7 @@
     <string name="submit">Submit</string>
     <string name="filter_register_to_trek">Register to trek</string>
     <string name="hint_register">Thoughts about the trek?</string>
-    <string name="trek_details_hint" >Trek Details </string>
+    <string name="hint_trek_details" >Trek Details </string>
     <!-- Types of food I could think of in 5 minutes -->
     <string-array name="categories">
         <item>@string/value_any_category</item>
