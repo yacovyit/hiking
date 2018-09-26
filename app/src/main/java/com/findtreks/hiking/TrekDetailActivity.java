@@ -51,6 +51,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
+import static com.findtreks.hiking.Globals.COLLECTION_NAME;
+
 public class TrekDetailActivity extends AppCompatActivity
         implements EventListener<DocumentSnapshot>, RatingDialogFragment.RatingListener {
 
@@ -88,8 +90,8 @@ public class TrekDetailActivity extends AppCompatActivity
     private RatingDialogFragment mRatingDialog;
 
     private FirebaseFirestore mFirestore;
-    private DocumentReference mRestaurantRef;
-    private ListenerRegistration mRestaurantRegistration;
+    private DocumentReference mTreksRef;
+    private ListenerRegistration mTrekRegistration;
 
     private RatingAdapter mRatingAdapter;
 
@@ -109,10 +111,10 @@ public class TrekDetailActivity extends AppCompatActivity
         mFirestore = FirebaseFirestore.getInstance();
 
         // Get reference to the restaurant
-        mRestaurantRef = mFirestore.collection("treks").document(trekId);
+        mTreksRef = mFirestore.collection(COLLECTION_NAME).document(trekId);
 
         // Get ratings
-        Query ratingsQuery = mRestaurantRef
+        Query ratingsQuery = mTreksRef
                 .collection("ratings")
                 .orderBy("timestamp", Query.Direction.DESCENDING)
                 .limit(50);
@@ -142,7 +144,7 @@ public class TrekDetailActivity extends AppCompatActivity
         super.onStart();
 
         mRatingAdapter.startListening();
-        mRestaurantRegistration = mRestaurantRef.addSnapshotListener(this);
+        mTrekRegistration = mTreksRef.addSnapshotListener(this);
     }
 
     @Override
@@ -151,9 +153,9 @@ public class TrekDetailActivity extends AppCompatActivity
 
         mRatingAdapter.stopListening();
 
-        if (mRestaurantRegistration != null) {
-            mRestaurantRegistration.remove();
-            mRestaurantRegistration = null;
+        if (mTrekRegistration != null) {
+            mTrekRegistration.remove();
+            mTrekRegistration = null;
         }
     }
 
@@ -195,7 +197,7 @@ public class TrekDetailActivity extends AppCompatActivity
     }
 
     /**
-     * Listener for the Trek document ({@link #mRestaurantRef}).
+     * Listener for the Trek document ({@link #mTreksRef}).
      */
     @Override
     public void onEvent(DocumentSnapshot snapshot, FirebaseFirestoreException e) {
@@ -240,7 +242,7 @@ public class TrekDetailActivity extends AppCompatActivity
     @Override
     public void onRating(Rating rating) {
         // In a transaction, add the new rating and update the aggregate totals
-        addRating(mRestaurantRef, rating)
+        addRating(mTreksRef, rating)
                 .addOnSuccessListener(this, new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {

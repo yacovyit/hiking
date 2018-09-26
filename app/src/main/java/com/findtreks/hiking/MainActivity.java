@@ -52,13 +52,15 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.findtreks.hiking.Globals.COLLECTION_NAME;
+import static com.findtreks.hiking.Globals.ORDER_BY;
+
 public class MainActivity extends AppCompatActivity implements
         FilterDialogFragment.FilterListener,
         TrekAdapter.OnRestaurantSelectedListener {
 
     private static final String TAG = "MainActivity";
-    private static final String COLLECTION_NAME = "treks";
-    private static final String ORDER_BY = "avgRating";
+
     private static final int RC_SIGN_IN = 9001;
 
     private static final int LIMIT = 50;
