@@ -25,6 +25,9 @@ import android.view.ViewGroup;
 import android.widget.Spinner;
 import com.findtreks.hiking.model.Trek;
 import com.google.firebase.firestore.Query;
+
+import java.util.Calendar;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -120,17 +123,22 @@ public class FilterDialogFragment extends DialogFragment {
         }
     }
 
-    private int getSelectedTrekDate() {
+    private long getSelectedTrekDate() {
         String selected = (String) mPriceSpinner.getSelectedItem();
+        Calendar c = Calendar.getInstance();
+
         if (selected.equals(getString(R.string.time_today))) {
-            return 1;
+           //
         } else if (selected.equals(getString(R.string.time_tomorrow))) {
-            return 2;
+            c.add(Calendar.DATE, 1);
         } else if (selected.equals(getString(R.string.time_this_week))) {
-            return 3;
+            //add 7 days
+            c.add(Calendar.DATE, 7);
+            //got back to the first day of the next week
+            c.set(Calendar.DAY_OF_WEEK,c.getFirstDayOfWeek());
         } else {
-            return -1;
         }
+        return c.getTimeInMillis();
     }
 
     @Nullable
@@ -139,7 +147,7 @@ public class FilterDialogFragment extends DialogFragment {
         if (getString(R.string.sort_by_rating).equals(selected)) {
             return Trek.FIELD_AVG_RATING;
         } if (getString(R.string.sort_by_time).equals(selected)) {
-            return Trek.FIELD_PRICE;
+            return Trek.FIELD_TREK_DATE;
         } if (getString(R.string.sort_by_popularity).equals(selected)) {
             return Trek.FIELD_POPULARITY;
         }
@@ -182,7 +190,7 @@ public class FilterDialogFragment extends DialogFragment {
 
             filters.setCategory(category);
             filters.setRegion(region);
-            filters.setPrice(getSelectedTrekDate());
+            filters.setTrekTime(getSelectedTrekDate());
             filters.setSortBy(getSelectedSortBy());
             filters.setSortDirection(getSortDirection());
         }

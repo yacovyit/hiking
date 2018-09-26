@@ -108,6 +108,7 @@ public class MainActivity extends AppCompatActivity implements
 
     private void initFirestore() {
         mFirestore = FirebaseFirestore.getInstance();
+
         mQuery = mFirestore.collection(COLLECTION_NAME)
                 .orderBy(ORDER_BY,Query.Direction.DESCENDING)
                 .limit(LIMIT);
@@ -194,9 +195,10 @@ public class MainActivity extends AppCompatActivity implements
             query = query.whereEqualTo("city", filters.getRegion());
         }
 
-        // Price (equality filter)
-        if (filters.hasPrice()) {
-            query = query.whereEqualTo("price", filters.getPrice());
+        // Trek date (equality filter)
+        if (filters.hasTrekDate()) {
+            query = query.whereLessThanOrEqualTo("trekStartDate", filters.getTrekTime());
+            query = query.orderBy("trekStartDate", Query.Direction.ASCENDING);
         }
 
         // Sort by (orderBy with direction)

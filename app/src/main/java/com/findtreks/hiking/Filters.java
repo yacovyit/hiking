@@ -19,7 +19,6 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.findtreks.hiking.model.Trek;
-import com.findtreks.hiking.util.TrekUtil;
 import com.google.firebase.firestore.Query;
 
 /**
@@ -29,7 +28,7 @@ public class Filters {
 
     private String category = null;
     private String region = null;
-    private int price = -1;
+    private long trekTime;
     private String sortBy = null;
     private Query.Direction sortDirection = null;
 
@@ -51,8 +50,16 @@ public class Filters {
         return !(TextUtils.isEmpty(region));
     }
 
-    public boolean hasPrice() {
-        return (price > 0);
+    public boolean hasTrekDate() {
+        return trekTime > 0;
+    }
+
+    public long getTrekTime() {
+        return trekTime;
+    }
+
+    public void setTrekTime(long trekTime) {
+        this.trekTime = trekTime;
     }
 
     public boolean hasSortBy() {
@@ -75,14 +82,6 @@ public class Filters {
         this.region = region;
     }
 
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
     public String getSortBy() {
         return sortBy;
     }
@@ -98,6 +97,7 @@ public class Filters {
     public void setSortDirection(Query.Direction sortDirection) {
         this.sortDirection = sortDirection;
     }
+
 
     public String getSearchDescription(Context context) {
         StringBuilder desc = new StringBuilder();
@@ -115,7 +115,7 @@ public class Filters {
         }
 
         if (category != null && region != null) {
-            desc.append(" in ");
+            desc.append(" * ");
         }
 
         if (region != null) {
@@ -124,18 +124,18 @@ public class Filters {
             desc.append("</b>");
         }
 
-        if (price > 0) {
-            desc.append(" for ");
+        /*if (price > 0) {
+            desc.append(" * ");
             desc.append("<b>");
             desc.append(TrekUtil.getPriceString(price));
             desc.append("</b>");
-        }
+        }*/
 
         return desc.toString();
     }
 
     public String getOrderDescription(Context context) {
-        if (Trek.FIELD_PRICE.equals(sortBy)) {
+        if (Trek.FIELD_TREK_DATE.equals(sortBy)) {
             return context.getString(R.string.sorted_by_time);
         } else if (Trek.FIELD_POPULARITY.equals(sortBy)) {
             return context.getString(R.string.sorted_by_registration);

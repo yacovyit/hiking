@@ -27,7 +27,7 @@ public class Trek {
 
     public static final String FIELD_CITY = "city";
     public static final String FIELD_CATEGORY = "category";
-    public static final String FIELD_PRICE = "price";
+    public static final String FIELD_TREK_DATE = "trekStartDate";
     public static final String FIELD_POPULARITY = "numRatings";
     public static final String FIELD_AVG_RATING = "avgRating";
 
