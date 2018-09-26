@@ -48,7 +48,7 @@
             app:srcCompat="@drawable/ic_place_white_24px" />
 
         <Spinner
-            android:id="@+id/spinner_city"
+            android:id="@+id/spinner_region"
             style="@style/AppTheme.FilterSpinner"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/icon_city"

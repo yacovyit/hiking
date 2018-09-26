@@ -39,15 +39,15 @@ import me.zhanghai.android.materialratingbar.MaterialRatingBar;
  */
 public class TrekAdapter extends FirestoreAdapter<TrekAdapter.ViewHolder> {
 
-    public interface OnRestaurantSelectedListener {
+    public interface OnTrekSelectedListener {
 
-        void onRestaurantSelected(DocumentSnapshot restaurant);
+        void onTrekSelected(DocumentSnapshot restaurant);
 
     }
 
-    private OnRestaurantSelectedListener mListener;
+    private OnTrekSelectedListener mListener;
 
-    public TrekAdapter(Query query, OnRestaurantSelectedListener listener) {
+    public TrekAdapter(Query query, OnTrekSelectedListener listener) {
         super(query);
         mListener = listener;
     }
@@ -89,7 +89,7 @@ public class TrekAdapter extends FirestoreAdapter<TrekAdapter.ViewHolder> {
         }
 
         public void bind(final DocumentSnapshot snapshot,
-                         final OnRestaurantSelectedListener listener) {
+                         final OnTrekSelectedListener listener) {
 
             TrekApplication trekApplication = (TrekApplication)(itemView.getContext().getApplicationContext());
 
@@ -117,7 +117,7 @@ public class TrekAdapter extends FirestoreAdapter<TrekAdapter.ViewHolder> {
                 @Override
                 public void onClick(View view) {
                     if (listener != null) {
-                        listener.onRestaurantSelected(snapshot);
+                        listener.onTrekSelected(snapshot);
                     }
                 }
             });

@@ -34,12 +34,9 @@ import android.widget.Toast;
 
 import com.findtreks.hiking.adapter.TrekAdapter;
 import com.findtreks.hiking.model.Trek;
-import com.findtreks.hiking.util.TrekUtil;
+import com.findtreks.hiking.viewmodel.MainActivityViewModel;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
-import com.findtreks.hiking.viewmodel.MainActivityViewModel;
-
-
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -57,7 +54,8 @@ import static com.findtreks.hiking.Globals.ORDER_BY;
 
 public class MainActivity extends AppCompatActivity implements
         FilterDialogFragment.FilterListener,
-        TrekAdapter.OnRestaurantSelectedListener {
+        TrekAdapter.OnTrekSelectedListener,
+        AddTrekDialogFragment.CreateTrekListener{
 
     private static final String TAG = "MainActivity";
 
@@ -84,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements
     private Query mQuery;
 
     private FilterDialogFragment mFilterDialog;
+    private AddTrekDialogFragment mAddTrekDialogFragment;
     private TrekAdapter mAdapter;
 
     private MainActivityViewModel mViewModel;
@@ -107,6 +106,7 @@ public class MainActivity extends AppCompatActivity implements
 
         // Filter Dialog
         mFilterDialog = new FilterDialogFragment();
+        mAddTrekDialogFragment = new AddTrekDialogFragment();
     }
 
     private void initFirestore() {
@@ -174,8 +174,8 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
-    private void onAddItemsClicked() {
-        // Get a reference to the restaurants collection
+    private void onAddTrekClicked() {
+       /* // Get a reference to the restaurants collection
         CollectionReference restaurants = mFirestore.collection(COLLECTION_NAME);
 
         for (int i = 0; i < 10; i++) {
@@ -184,8 +184,8 @@ public class MainActivity extends AppCompatActivity implements
 
             // Add a new document to the restaurants collection
             restaurants.add(trek);
-        }
-
+        }*/
+        mAddTrekDialogFragment.show(getSupportFragmentManager(), AddTrekDialogFragment.TAG);
     }
 
     @Override
@@ -229,6 +229,12 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
+    public void onCreateTrek(Trek trek) {
+        CollectionReference treks = mFirestore.collection(COLLECTION_NAME);
+        treks.add(trek);
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return super.onCreateOptionsMenu(menu);
@@ -238,7 +244,7 @@ public class MainActivity extends AppCompatActivity implements
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_add_items:
-                onAddItemsClicked();
+                onAddTrekClicked();
                 break;
             case R.id.menu_sign_out:
                 AuthUI.getInstance().signOut(this);
@@ -274,10 +280,10 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onRestaurantSelected(DocumentSnapshot restaurant) {
+    public void onTrekSelected(DocumentSnapshot trek) {
         // Go to the details page for the selected restaurant
         Intent intent = new Intent(this, TrekDetailActivity.class);
-        intent.putExtra(TrekDetailActivity.KEY_RESTAURANT_ID, restaurant.getId());
+        intent.putExtra(TrekDetailActivity.KEY_TREK_ID, trek.getId());
 
         startActivity(intent);
     }

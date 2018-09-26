@@ -27,7 +27,7 @@
     <string name="sorted_by_time">sorted by time</string>
     <string name="sorted_by_registration">sorted by registration</string>
 
-    <string name="add_random_items">Add Random Items</string>
+    <string name="create_trek">New Trek</string>
     <string name="sign_out">Sign Out</string>
     <string name="delete_all">Delete All</string>
     <string name="divider_bullet" translatable="false">•</string>
@@ -37,7 +37,8 @@
     <string name="message_no_reviews">Be the first to leave a review!</string>
     <string name="submit">Submit</string>
     <string name="filter_register_to_trek">Register to trek</string>
-
+    <string name="hint_register">Thoughts about the trek?</string>
+    <string name="trek_details_hint" >Trek Details </string>
     <!-- Types of food I could think of in 5 minutes -->
     <string-array name="categories">
         <item>@string/value_any_category</item>
@@ -77,5 +78,5 @@
         <item>@string/sort_by_popularity</item>
         <item>@string/sort_by_time</item>
     </string-array>
-    <string name="hint_register">Thoughts about the trek?</string>
+
 </resources>

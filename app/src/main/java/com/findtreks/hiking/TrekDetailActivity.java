@@ -58,7 +58,7 @@ public class TrekDetailActivity extends AppCompatActivity
 
     private static final String TAG = "RestaurantDetail";
 
-    public static final String KEY_RESTAURANT_ID = "key_restaurant_id";
+    public static final String KEY_TREK_ID = "key_trek_id";
 
     @BindView(R.id.restaurant_image)
     ImageView mImageView;
@@ -102,9 +102,9 @@ public class TrekDetailActivity extends AppCompatActivity
         ButterKnife.bind(this);
 
         // Get restaurant ID from extras
-        String trekId = getIntent().getExtras().getString(KEY_RESTAURANT_ID);
+        String trekId = getIntent().getExtras().getString(KEY_TREK_ID);
         if (trekId == null) {
-            throw new IllegalArgumentException("Must pass extra " + KEY_RESTAURANT_ID);
+            throw new IllegalArgumentException("Must pass extra " + KEY_TREK_ID);
         }
 
         // Initialize Firestore

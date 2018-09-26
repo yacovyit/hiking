@@ -47,7 +47,7 @@ public class FilterDialogFragment extends DialogFragment {
     @BindView(R.id.spinner_category)
     Spinner mCategorySpinner;
 
-    @BindView(R.id.spinner_city)
+    @BindView(R.id.spinner_region)
     Spinner mCitySpinner;
 
     @BindView(R.id.spinner_sort)
