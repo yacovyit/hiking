@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements
         TrekAdapter.OnRestaurantSelectedListener {
 
     private static final String TAG = "MainActivity";
-    private static final String COLLECTION_NAME = "restaurants";
+    private static final String COLLECTION_NAME = "treks";
     private static final String ORDER_BY = "avgRating";
     private static final int RC_SIGN_IN = 9001;
 

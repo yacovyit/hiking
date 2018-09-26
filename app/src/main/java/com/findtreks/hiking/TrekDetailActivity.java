@@ -109,7 +109,7 @@ public class TrekDetailActivity extends AppCompatActivity
         mFirestore = FirebaseFirestore.getInstance();
 
         // Get reference to the restaurant
-        mRestaurantRef = mFirestore.collection("restaurants").document(trekId);
+        mRestaurantRef = mFirestore.collection("treks").document(trekId);
 
         // Get ratings
         Query ratingsQuery = mRestaurantRef
