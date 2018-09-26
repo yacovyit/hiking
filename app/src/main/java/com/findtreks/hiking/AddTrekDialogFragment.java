@@ -19,9 +19,13 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
@@ -58,6 +62,9 @@ public class AddTrekDialogFragment extends DialogFragment {
     @BindView(R.id.edit_trek_details)
     EditText mTrekDetails;
 
+    @BindView(R.id.button_search)
+    Button searchBtn;
+
     private CreateTrekListener mCreateTrekListener;
 
     @Nullable
@@ -67,7 +74,7 @@ public class AddTrekDialogFragment extends DialogFragment {
                              @Nullable Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.dialog_create_trek, container, false);
         ButterKnife.bind(this, mRootView);
-
+        setEditListener();
         return mRootView;
     }
 
@@ -86,6 +93,7 @@ public class AddTrekDialogFragment extends DialogFragment {
         getDialog().getWindow().setLayout(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
+        resetTrek();
     }
 
     @OnClick(R.id.button_search)
@@ -146,6 +154,7 @@ public class AddTrekDialogFragment extends DialogFragment {
             mCategorySpinner.setSelection(0);
             mRegionSpinner.setSelection(0);
             mPriceSpinner.setSelection(0);
+            mTrekDetails.setText(null);
         }
     }
 
@@ -166,5 +175,48 @@ public class AddTrekDialogFragment extends DialogFragment {
         }
 
         return trek;
+    }
+    private void setEditListener(){
+        AdapterView.OnItemSelectedListener onItemSelectedListener = new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                searchBtn.setEnabled(isEnabled());
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                searchBtn.setEnabled(isEnabled());
+            }
+
+        };
+        mPriceSpinner.setOnItemSelectedListener(onItemSelectedListener);
+        mCategorySpinner.setOnItemSelectedListener(onItemSelectedListener);
+        mRegionSpinner.setOnItemSelectedListener(onItemSelectedListener);
+        mTrekDetails.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                searchBtn.setEnabled(isEnabled());
+            }
+
+        });
+    }
+    private boolean isEnabled(){
+        boolean isEnabled = mPriceSpinner.getSelectedItemPosition() > 0 &&
+                mCategorySpinner.getSelectedItemPosition() > 0 &&
+                mRegionSpinner.getSelectedItemPosition() > 0 &&
+                mTrekDetails.getText().toString().length() > 0 ;
+        return isEnabled;
     }
 }

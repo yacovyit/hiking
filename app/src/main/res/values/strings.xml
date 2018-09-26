@@ -5,6 +5,10 @@
     <string name="value_any_region">Anywhere</string>
     <string name="value_any_time">Anytime</string>
 
+    <string name="value_select_category">Select Treks</string>
+    <string name="value_select_region">Select region</string>
+
+
     <string name="time_today">Today</string>
     <string name="time_tomorrow">Tomorrow</string>
     <string name="time_this_week">This week</string>
@@ -39,28 +43,64 @@
     <string name="filter_register_to_trek">Register to trek</string>
     <string name="hint_register">Thoughts about the trek?</string>
     <string name="hint_trek_details" >Trek Details </string>
+
+    <string name="category_item_1" >Easy</string>
+    <string name="category_item_2" >Moderate</string>
+    <string name="category_item_3" >Difficult</string>
+    <string name="category_item_4" >Extreme</string>
+
+    <string name="region_item_1" >Jerusalem District</string>
+    <string name="region_item_2" >Northern District</string>
+    <string name="region_item_3" >Haifa District</string>
+    <string name="region_item_4" >Central District</string>
+    <string name="region_item_5" >Tel Aviv District</string>
+    <string name="region_item_6" >Southern District</string>
+    <string name="region_item_7" >Judea and Samaria Area</string>
+
     <!-- Types of food I could think of in 5 minutes -->
     <string-array name="categories">
         <item>@string/value_any_category</item>
 
-        <item>Easy</item>
-        <item>Moderate</item>
-        <item>Difficult</item>
-        <item>Extreme</item>
+        <item>@string/category_item_1</item>
+        <item>@string/category_item_2</item>
+        <item>@string/category_item_3</item>
+        <item>@string/category_item_4</item>
+
     </string-array>
 
+    <string-array name="categories_create">
+        <item>@string/value_select_category</item>
 
+        <item>@string/category_item_1</item>
+        <item>@string/category_item_2</item>
+        <item>@string/category_item_3</item>
+        <item>@string/category_item_4</item>
+    </string-array>
     <!-- 50 most populous cities in the US -->
     <string-array name="regions">
         <item>@string/value_any_region</item>
 
-        <item>Jerusalem District</item>
-        <item>Northern District</item>
-        <item>Haifa District</item>
-        <item>Central District</item>
-        <item>Tel Aviv District</item>
-        <item>Southern District</item>
-        <item>Judea and Samaria Area</item>
+        <item>@string/region_item_1</item>
+        <item>@string/region_item_2</item>
+        <item>@string/region_item_3</item>
+        <item>@string/region_item_4</item>
+        <item>@string/region_item_5</item>
+        <item>@string/region_item_6</item>
+        <item>@string/region_item_7</item>
+
+    </string-array>
+
+    <string-array name="regions_create">
+        <item>@string/value_select_region</item>
+
+        <item>@string/region_item_1</item>
+        <item>@string/region_item_2</item>
+        <item>@string/region_item_3</item>
+        <item>@string/region_item_4</item>
+        <item>@string/region_item_5</item>
+        <item>@string/region_item_6</item>
+        <item>@string/region_item_7</item>
+
     </string-array>
 
     <!-- time filters -->

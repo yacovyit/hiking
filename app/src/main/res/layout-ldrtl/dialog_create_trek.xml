@@ -16,7 +16,7 @@
         android:text="@string/create_trek"
         tools:hint="@string/hint_trek_details" />
 
-    <!-- Food Type -->
+    <!-- Trek Type -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -36,7 +36,7 @@
             style="@style/AppTheme.FilterSpinner"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/icon_category"
-            android:entries="@array/categories" />
+            android:entries="@array/categories_create" />
 
     </RelativeLayout>
 
@@ -59,7 +59,7 @@
             style="@style/AppTheme.FilterSpinner"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/icon_city"
-            android:entries="@array/regions" />
+            android:entries="@array/regions_create" />
 
     </RelativeLayout>
 

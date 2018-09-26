@@ -27,29 +27,68 @@
     <string name="sort_by_rating">מיין לפי דרוג</string>
     <string name="time_today">היום</string>
     <string name="value_any_time">בכל זמן</string>
+    <string name="value_select_category">בחר דרגת קושי</string>
+    <string name="value_select_region">בחר אזור</string>
     <string name="time_tomorrow">מחר</string>
     <string name="time_this_week">השבוע</string>
     <string name="hint_trek_details">פרטי הטיול</string>
+    <string name="create_trek">טיול חדש</string>
+
+    <string name="category_item_1" >קל</string>
+    <string name="category_item_2" >בינוני</string>
+    <string name="category_item_3" >קשה</string>
+    <string name="category_item_4" >אקסטרים</string>
+
+    <string name="region_item_1" >מחוז ירושלים</string>
+    <string name="region_item_2" >מחוז הצפון</string>
+    <string name="region_item_3" >מחוז חיפה</string>
+    <string name="region_item_4" >מחוז המרכז</string>
+    <string name="region_item_5" >מחוז תל אביב</string>
+    <string name="region_item_6" >מחוז הדרום</string>
+    <string name="region_item_7" >אֵזוֹר יְהוּדָה וְשׁוֹמְרוֹן</string>
+
     <string-array name="categories">
         <item>@string/value_any_category</item>
 
-        <item>קל</item>
-        <item>בינוני</item>
-        <item>קשה</item>
-        <item>אקסטרים</item>
+        <item>@string/category_item_1</item>
+        <item>@string/category_item_2</item>
+        <item>@string/category_item_3</item>
+        <item>@string/category_item_4</item>
+    </string-array>
+    <string-array name="categories_create">
+        <item>@string/value_select_category</item>
+
+        <item>@string/category_item_1</item>
+        <item>@string/category_item_2</item>
+        <item>@string/category_item_3</item>
+        <item>@string/category_item_4</item>
     </string-array>
 
 
     <string-array name="regions">
         <item>@string/value_any_region</item>
 
-        <item>מחוז ירושלים</item>
-        <item>מחוז הצפון</item>
-        <item>מחוז חיפה</item>
-        <item>מחוז המרכז</item>
-        <item>מחוז תל אביב</item>
-        <item>מחוז הדרום</item>
-        <item>אֵזוֹר יְהוּדָה וְשׁוֹמְרוֹן</item>
+        <item>@string/region_item_1</item>
+        <item>@string/region_item_2</item>
+        <item>@string/region_item_3</item>
+        <item>@string/region_item_4</item>
+        <item>@string/region_item_5</item>
+        <item>@string/region_item_6</item>
+        <item>@string/region_item_7</item>
+
     </string-array>
-    <string name="create_trek">טיול חדש</string>
+
+    <string-array name="regions_create">
+        <item>@string/value_select_region</item>
+
+        <item>@string/region_item_1</item>
+        <item>@string/region_item_2</item>
+        <item>@string/region_item_3</item>
+        <item>@string/region_item_4</item>
+        <item>@string/region_item_5</item>
+        <item>@string/region_item_6</item>
+        <item>@string/region_item_7</item>
+
+    </string-array>
+
 </resources>
