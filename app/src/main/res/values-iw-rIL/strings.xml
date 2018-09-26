@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">חברים מטיילים</string>
+    <string name="delete_all">מחק הכל</string>
+    <string name="apply">בצע</string>
+    <string name="value_any_region">בכל הארץ</string>
+    <string name="value_any_category">כל הטיולים</string>
+    <string name="submit">שלח</string>
+    <string name="sign_out">יציאה</string>
+    <string name="search">חיפוש</string>
+    <string name="message_no_reviews">היה הראשון להרשם!</string>
+    <string name="message_no_results">"[...] אופס, לא הצלחנו למצוא תוצאות "</string>
+    <string name="label_sort_by">מיון לפי</string>
+    <string name="label_price">מחיר</string>
+    <string name="label_region">אזור</string>
+    <string name="label_category">קטגוריה</string>
+    <string name="header_filters">סינון</string>
+    <string name="filter_register_to_trek">הרשם לטיול</string>
+    <string name="cancel">בטל</string>
+    <string name="all_treks">כל הטיולים</string>
+    <string name="sorted_by_registration">ממויין לפי כמות נרשמים</string>
+    <string name="sort_by_popularity">מיין לפי פופולאריות</string>
+    <string name="hint_register">מחשבות על הטיול?</string>
+    <string name="sorted_by_time">ממויין לפי זמן</string>
+    <string name="sort_by_time">מיין לפי זמן</string>
+    <string name="sorted_by_rating">ממויין לפי דרוג</string>
+    <string name="sort_by_rating">מיין לפי דרוג</string>
+    <string name="time_today">היום</string>
+    <string name="value_any_time">בכל זמן</string>
+    <string name="time_tomorrow">מחר</string>
+    <string name="time_this_week">השבוע</string>
+
+    <string-array name="categories">
+        <item>@string/value_any_category</item>
+
+        <item>קל</item>
+        <item>בינוני</item>
+        <item>קשה</item>
+        <item>אקסטרים</item>
+    </string-array>
+
+
+    <string-array name="regions">
+        <item>@string/value_any_region</item>
+
+        <item>מחוז ירושלים</item>
+        <item>מחוז הצפון</item>
+        <item>מחוז חיפה</item>
+        <item>מחוז המרכז</item>
+        <item>מחוז תל אביב</item>
+        <item>מחוז הדרום</item>
+        <item>אֵזוֹר יְהוּדָה וְשׁוֹמְרוֹן</item>
+    </string-array>
+</resources>

@@ -23,11 +23,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Spinner;
-
-import com.findtreks.hiking.model.Restaurant;
-import com.google.firebase.example.fireeats.R;
+import com.findtreks.hiking.model.Trek;
 import com.google.firebase.firestore.Query;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -114,22 +111,22 @@ public class FilterDialogFragment extends DialogFragment {
     }
 
     @Nullable
-    private String getSelectedCity() {
+    private String getSelectedRegion() {
         String selected = (String) mCitySpinner.getSelectedItem();
-        if (getString(R.string.value_any_city).equals(selected)) {
+        if (getString(R.string.value_any_region).equals(selected)) {
             return null;
         } else {
             return selected;
         }
     }
 
-    private int getSelectedPrice() {
+    private int getSelectedTrekDate() {
         String selected = (String) mPriceSpinner.getSelectedItem();
-        if (selected.equals(getString(R.string.price_1))) {
+        if (selected.equals(getString(R.string.time_today))) {
             return 1;
-        } else if (selected.equals(getString(R.string.price_2))) {
+        } else if (selected.equals(getString(R.string.time_tomorrow))) {
             return 2;
-        } else if (selected.equals(getString(R.string.price_3))) {
+        } else if (selected.equals(getString(R.string.time_this_week))) {
             return 3;
         } else {
             return -1;
@@ -140,11 +137,11 @@ public class FilterDialogFragment extends DialogFragment {
     private String getSelectedSortBy() {
         String selected = (String) mSortSpinner.getSelectedItem();
         if (getString(R.string.sort_by_rating).equals(selected)) {
-            return Restaurant.FIELD_AVG_RATING;
-        } if (getString(R.string.sort_by_price).equals(selected)) {
-            return Restaurant.FIELD_PRICE;
+            return Trek.FIELD_AVG_RATING;
+        } if (getString(R.string.sort_by_time).equals(selected)) {
+            return Trek.FIELD_PRICE;
         } if (getString(R.string.sort_by_popularity).equals(selected)) {
-            return Restaurant.FIELD_POPULARITY;
+            return Trek.FIELD_POPULARITY;
         }
 
         return null;
@@ -155,7 +152,7 @@ public class FilterDialogFragment extends DialogFragment {
         String selected = (String) mSortSpinner.getSelectedItem();
         if (getString(R.string.sort_by_rating).equals(selected)) {
             return Query.Direction.DESCENDING;
-        } if (getString(R.string.sort_by_price).equals(selected)) {
+        } if (getString(R.string.sort_by_time).equals(selected)) {
             return Query.Direction.ASCENDING;
         } if (getString(R.string.sort_by_popularity).equals(selected)) {
             return Query.Direction.DESCENDING;
@@ -176,10 +173,16 @@ public class FilterDialogFragment extends DialogFragment {
     public Filters getFilters() {
         Filters filters = new Filters();
 
+
         if (mRootView != null) {
-            filters.setCategory(getSelectedCategory());
-            filters.setCity(getSelectedCity());
-            filters.setPrice(getSelectedPrice());
+            //normalize category and region values to english keys
+            TrekApplication trekApplication = (TrekApplication)(this.getContext().getApplicationContext());
+            String category = trekApplication.getCategoriesTranslationMap().get(getSelectedCategory());
+            String region = trekApplication.getRegionsTranslationMap().get(getSelectedRegion());
+
+            filters.setCategory(category);
+            filters.setRegion(region);
+            filters.setPrice(getSelectedTrekDate());
             filters.setSortBy(getSelectedSortBy());
             filters.setSortDirection(getSortDirection());
         }

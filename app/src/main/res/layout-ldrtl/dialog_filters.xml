@@ -27,7 +27,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="8dp"
             android:tint="@color/greySecondary"
-            app:srcCompat="@drawable/ic_fastfood_white_24dp" />
+            app:srcCompat="@drawable/ic_trending_up_white_24dp" />
 
         <Spinner
             android:id="@+id/spinner_category"
@@ -57,7 +57,7 @@
             style="@style/AppTheme.FilterSpinner"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/icon_city"
-            android:entries="@array/cities" />
+            android:entries="@array/regions" />
 
     </RelativeLayout>
 
@@ -80,7 +80,7 @@
             style="@style/AppTheme.FilterSpinner"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/icon_price"
-            android:entries="@array/prices" />
+            android:entries="@array/trek_date" />
 
     </RelativeLayout>
 

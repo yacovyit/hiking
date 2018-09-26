@@ -18,9 +18,8 @@
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.findtreks.hiking.model.Restaurant;
-import com.findtreks.hiking.util.RestaurantUtil;
-import com.google.firebase.example.fireeats.R;
+import com.findtreks.hiking.model.Trek;
+import com.findtreks.hiking.util.TrekUtil;
 import com.google.firebase.firestore.Query;
 
 /**
@@ -29,7 +28,7 @@ import com.google.firebase.firestore.Query;
 public class Filters {
 
     private String category = null;
-    private String city = null;
+    private String region = null;
     private int price = -1;
     private String sortBy = null;
     private Query.Direction sortDirection = null;
@@ -38,7 +37,7 @@ public class Filters {
 
     public static Filters getDefault() {
         Filters filters = new Filters();
-        filters.setSortBy(Restaurant.FIELD_AVG_RATING);
+        filters.setSortBy(Trek.FIELD_AVG_RATING);
         filters.setSortDirection(Query.Direction.DESCENDING);
 
         return filters;
@@ -49,7 +48,7 @@ public class Filters {
     }
 
     public boolean hasCity() {
-        return !(TextUtils.isEmpty(city));
+        return !(TextUtils.isEmpty(region));
     }
 
     public boolean hasPrice() {
@@ -68,12 +67,12 @@ public class Filters {
         this.category = category;
     }
 
-    public String getCity() {
-        return city;
+    public String getRegion() {
+        return region;
     }
 
-    public void setCity(String city) {
-        this.city = city;
+    public void setRegion(String region) {
+        this.region = region;
     }
 
     public int getPrice() {
@@ -103,9 +102,9 @@ public class Filters {
     public String getSearchDescription(Context context) {
         StringBuilder desc = new StringBuilder();
 
-        if (category == null && city == null) {
+        if (category == null && region == null) {
             desc.append("<b>");
-            desc.append(context.getString(R.string.all_restaurants));
+            desc.append(context.getString(R.string.all_treks));
             desc.append("</b>");
         }
 
@@ -115,20 +114,20 @@ public class Filters {
             desc.append("</b>");
         }
 
-        if (category != null && city != null) {
+        if (category != null && region != null) {
             desc.append(" in ");
         }
 
-        if (city != null) {
+        if (region != null) {
             desc.append("<b>");
-            desc.append(city);
+            desc.append(region);
             desc.append("</b>");
         }
 
         if (price > 0) {
             desc.append(" for ");
             desc.append("<b>");
-            desc.append(RestaurantUtil.getPriceString(price));
+            desc.append(TrekUtil.getPriceString(price));
             desc.append("</b>");
         }
 
@@ -136,10 +135,10 @@ public class Filters {
     }
 
     public String getOrderDescription(Context context) {
-        if (Restaurant.FIELD_PRICE.equals(sortBy)) {
-            return context.getString(R.string.sorted_by_price);
-        } else if (Restaurant.FIELD_POPULARITY.equals(sortBy)) {
-            return context.getString(R.string.sorted_by_popularity);
+        if (Trek.FIELD_PRICE.equals(sortBy)) {
+            return context.getString(R.string.sorted_by_time);
+        } else if (Trek.FIELD_POPULARITY.equals(sortBy)) {
+            return context.getString(R.string.sorted_by_registration);
         } else {
             return context.getString(R.string.sorted_by_rating);
         }

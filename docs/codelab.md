@@ -15,7 +15,7 @@ Duration: 1:00
 
 ### Goals
 
-In this codelab you will build a restaurant recommendation app on Android backed by Cloud Firestore. You will learn how to:
+In this codelab you will build a trek recommendation app on Android backed by Cloud Firestore. You will learn how to:
 
 *   Read and write data to Firestore from an Android app
 *   Listen to changes in Firestore data in realtime
@@ -101,7 +101,7 @@ Duration: 5:00
 
 In this section we will write some data to Firestore so that we can populate the home screen. You can enter data manually in the [Firebase console](https://console.firebase.google.com), but we'll do it in the app itself to demonstrate how to write data to Firestore using the Android SDK.
 
-The main model object in our app is a restaurant (see `model/Restaurant.java`). Firestore data is split into documents, collections, and subcollections. We will store each restaurant as a document in a top-level collection called `"restaurants"`. To learn more about the Firestore data model, read about documents and collections in [the documentation](https://firebase.google.com/docs/firestore/data-model).
+The main model object in our app is a trek (see `model/Restaurant.java`). Firestore data is split into documents, collections, and subcollections. We will store each trek as a document in a top-level collection called `"restaurants"`. To learn more about the Firestore data model, read about documents and collections in [the documentation](https://firebase.google.com/docs/firestore/data-model).
 
 First, let's get an instance of `FirebaseFirestore` to work with. Edit the `initFirestore()` method in `MainActivity`:
 
@@ -120,10 +120,10 @@ For demonstration purposes, we will add functionality in the app to create ten r
 
         for (int i = 0; i < 10; i++) {
             // Get a random Restaurant POJO
-            Restaurant restaurant = RestaurantUtil.getRandom(this);
+            Restaurant trek = RestaurantUtil.getRandom(this);
 
             // Add a new document to the restaurants collection
-            restaurants.add(restaurant);
+            restaurants.add(trek);
         }
     }
 ```
@@ -283,13 +283,13 @@ Now the app is fully configured to read data from Firestore. **Run** the app aga
 
 ![Firestore-Android5](img/Firestore-Android5.png)
 
-Now go back to the Firebase console and edit one of the restaurant names. You should see it change in the app almost instantly!
+Now go back to the Firebase console and edit one of the trek names. You should see it change in the app almost instantly!
 
 
 ## Sort and filter data
 Duration: 5:00
 
-The app currently displays the top-rated restaurants across the entire collection, but in a real restaurant app the user would want to sort and filter the data. For example the app should be able to show "Top seafood restaurants in Philadelphia" or "Least expensive pizza".
+The app currently displays the top-rated restaurants across the entire collection, but in a real trek app the user would want to sort and filter the data. For example the app should be able to show "Top seafood restaurants in Philadelphia" or "Least expensive pizza".
 
 Clicking white bar at the top of the app brings up a filters dialog. In this section we'll use Firestore queries to make this dialog work:
 
@@ -310,7 +310,7 @@ Let's edit the `onFilter()` method of `MainActivity.java`. This method accepts a
 
         // City (equality filter)
         if (filters.hasCity()) {
-            query = query.whereEqualTo("city", filters.getCity());
+            query = query.whereEqualTo("region", filters.getCity());
         }
 
         // Price (equality filter)
@@ -370,7 +370,7 @@ Now that the proper index has been created, run the app again and execute the sa
 
 ![Firestore-Android10](img/Firestore-Android10.png)
 
-If you've made it this far, you have now built a fully functioning restaurant recommendation app on Firestore!  You can now sort and filter restaurants in real time. In the next few sections we add more features and security to the app.
+If you've made it this far, you have now built a fully functioning trek recommendation app on Firestore!  You can now sort and filter restaurants in real time. In the next few sections we add more features and security to the app.
 
 
 ## Organize data in subcollections
@@ -380,7 +380,7 @@ In this section we'll add ratings to the app so users can review their favorite 
 
 ### Collections and subcollections
 
-So far we have stored all restaurant data in a top-level collection called "restaurants". When a user rates a restaurant we want to add a new `Rating` object to the restaurants. For this task we will use a subcollection. You can think of a subcollection as a collection that is attached to a document. So each restaurant document will have a ratings subcollection full of rating documents. Subcollections help organize data without bloating our documents or requiring complex queries.
+So far we have stored all trek data in a top-level collection called "restaurants". When a user rates a trek we want to add a new `Rating` object to the restaurants. For this task we will use a subcollection. You can think of a subcollection as a collection that is attached to a document. So each trek document will have a ratings subcollection full of rating documents. Subcollections help organize data without bloating our documents or requiring complex queries.
 
 To access a subcollection, call `.collection()` on the parent document:
 
@@ -398,11 +398,11 @@ You can access and query a subcollection just like with a top-level collection, 
 
 Adding a `Rating` to the proper subcollection only requires calling `.add()`, but we also need to update the `Restaurant` object's average rating and number of ratings to reflect the new data. If we use separate operations to make these two changes there are a number of race conditions that could result in stale or incorrect data.
 
-To ensure that ratings are added properly, we will use a transaction to add ratings to a restaurant. This transaction will perform a few actions:
+To ensure that ratings are added properly, we will use a transaction to add ratings to a trek. This transaction will perform a few actions:
 
-*   Read the restaurant's current rating and calculate the new one
+*   Read the trek's current rating and calculate the new one
 *   Add the rating to the subcollection
-*   Update the restaurant's average rating and number of ratings
+*   Update the trek's average rating and number of ratings
 
 Open `RestaurantDetailActivity.java` and implement the `addRating` function:
 
@@ -420,24 +420,24 @@ Open `RestaurantDetailActivity.java` and implement the `addRating` function:
             public Void apply(Transaction transaction)
                     throws FirebaseFirestoreException {
 
-                Restaurant restaurant = transaction.get(restaurantRef)
+                Restaurant trek = transaction.get(restaurantRef)
                         .toObject(Restaurant.class);
 
                 // Compute new number of ratings
-                int newNumRatings = restaurant.getNumRatings() + 1;
+                int newNumRatings = trek.getNumRatings() + 1;
 
                 // Compute new average rating
-                double oldRatingTotal = restaurant.getAvgRating() *
-                        restaurant.getNumRatings();
+                double oldRatingTotal = trek.getAvgRating() *
+                        trek.getNumRatings();
                 double newAvgRating = (oldRatingTotal + rating.getRating()) /
                         newNumRatings;
 
-                // Set new restaurant info
-                restaurant.setNumRatings(newNumRatings);
-                restaurant.setAvgRating(newAvgRating);
+                // Set new trek info
+                trek.setNumRatings(newNumRatings);
+                trek.setAvgRating(newAvgRating);
 
                 // Commit to Firestore
-                transaction.set(restaurantRef, restaurant);
+                transaction.set(restaurantRef, trek);
                 transaction.set(ratingRef, rating);
 
                 return null;
@@ -448,15 +448,15 @@ Open `RestaurantDetailActivity.java` and implement the `addRating` function:
 
 The `addRating()` function returns a `Task` representing the entire transaction. In the `onRating()` function listeners are added to the task to respond to the result of the transaction.
 
-Now **Run** the app again and click on one of the restaurants, which should bring up the restaurant detail screen. Click the **+** button to start adding a review. Add a review by picking a number of stars and entering some text.
+Now **Run** the app again and click on one of the restaurants, which should bring up the trek detail screen. Click the **+** button to start adding a review. Add a review by picking a number of stars and entering some text.
 
 ![Firestore-Android11](img/Firestore-Android11.png)
 
-Hitting **Submit** will kick off the transaction. When the transaction completes, you will see your review displayed below and an update to the restaurant's review count:
+Hitting **Submit** will kick off the transaction. When the transaction completes, you will see your review displayed below and an update to the trek's review count:
 
 ![Firestore-Android12](img/Firestore-Android12.png)
 
-Congrats!  You now have a social, local, mobile restaurant review app built on Cloud Firestore. I hear those are very popular these days.
+Congrats!  You now have a social, local, mobile trek review app built on Cloud Firestore. I hear those are very popular these days.
 
 
 ## Secure your data
@@ -497,7 +497,7 @@ service cloud.firestore {
 }
 ```
 
-These rules restrict access to ensure that clients only make safe changes. For example updates to a restaurant document can only change the ratings, not the name or any other immutable data. Ratings can only be created if the user ID matches the signed-in user, which prevents spoofing.
+These rules restrict access to ensure that clients only make safe changes. For example updates to a trek document can only change the ratings, not the name or any other immutable data. Ratings can only be created if the user ID matches the signed-in user, which prevents spoofing.
 
 To read more about Security Rules, visit [the documentation](https://firebase.google.com/docs/firestore/security/secure-data).
 
@@ -512,7 +512,7 @@ You have now created a fully-featured app on top of Firestore. You learned about
 *   Subcollections
 *   Transactions
 
-The restaurant app in this codelab was based on the "Friendly Eats" example application. You can browse the source code for that app [here](https://github.com/firebase/quickstart-android).
+The trek app in this codelab was based on the "Friendly Eats" example application. You can browse the source code for that app [here](https://github.com/firebase/quickstart-android).
 
 If you want to keep learning about Firestore, here are some good places to get started:
 

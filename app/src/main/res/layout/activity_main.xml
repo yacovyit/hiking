@@ -67,7 +67,7 @@
                         style="@style/AppTheme.Body1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/all_restaurants"
+                        android:text="@string/all_treks"
                         android:textColor="@color/greySecondary"
                         tools:text="Filter" />
 

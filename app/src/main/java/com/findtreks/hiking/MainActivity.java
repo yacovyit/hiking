@@ -32,13 +32,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.findtreks.hiking.adapter.TrekAdapter;
+import com.findtreks.hiking.model.Trek;
+import com.findtreks.hiking.util.TrekUtil;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
-import com.findtreks.hiking.adapter.RestaurantAdapter;
-import com.findtreks.hiking.model.Restaurant;
-import com.findtreks.hiking.util.RestaurantUtil;
 import com.findtreks.hiking.viewmodel.MainActivityViewModel;
-import com.google.firebase.example.fireeats.R;
+
+
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -53,7 +54,7 @@ import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity implements
         FilterDialogFragment.FilterListener,
-        RestaurantAdapter.OnRestaurantSelectedListener {
+        TrekAdapter.OnRestaurantSelectedListener {
 
     private static final String TAG = "MainActivity";
     private static final String COLLECTION_NAME = "restaurants";
@@ -81,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements
     private Query mQuery;
 
     private FilterDialogFragment mFilterDialog;
-    private RestaurantAdapter mAdapter;
+    private TrekAdapter mAdapter;
 
     private MainActivityViewModel mViewModel;
 
@@ -118,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements
             Log.w(TAG, "No query, not initializing RecyclerView");
         }
 
-        mAdapter = new RestaurantAdapter(mQuery, this) {
+        mAdapter = new TrekAdapter(mQuery, this) {
 
             @Override
             protected void onDataChanged() {
@@ -176,11 +177,11 @@ public class MainActivity extends AppCompatActivity implements
         CollectionReference restaurants = mFirestore.collection(COLLECTION_NAME);
 
         for (int i = 0; i < 10; i++) {
-            // Get a random Restaurant POJO
-            Restaurant restaurant = RestaurantUtil.getRandom(this);
+            // Get a random Trek POJO
+            Trek trek = TrekUtil.getRandom(this);
 
             // Add a new document to the restaurants collection
-            restaurants.add(restaurant);
+            restaurants.add(trek);
         }
 
     }
@@ -197,7 +198,7 @@ public class MainActivity extends AppCompatActivity implements
 
         // City (equality filter)
         if (filters.hasCity()) {
-            query = query.whereEqualTo("city", filters.getCity());
+            query = query.whereEqualTo("city", filters.getRegion());
         }
 
         // Price (equality filter)

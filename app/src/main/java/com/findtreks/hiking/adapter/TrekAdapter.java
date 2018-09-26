@@ -24,9 +24,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.google.firebase.example.fireeats.R;
-import com.findtreks.hiking.model.Restaurant;
-import com.findtreks.hiking.util.RestaurantUtil;
+import com.findtreks.hiking.R;
+import com.findtreks.hiking.TrekApplication;
+import com.findtreks.hiking.model.Trek;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Query;
 
@@ -37,7 +37,7 @@ import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 /**
  * RecyclerView adapter for a list of Restaurants.
  */
-public class RestaurantAdapter extends FirestoreAdapter<RestaurantAdapter.ViewHolder> {
+public class TrekAdapter extends FirestoreAdapter<TrekAdapter.ViewHolder> {
 
     public interface OnRestaurantSelectedListener {
 
@@ -47,7 +47,7 @@ public class RestaurantAdapter extends FirestoreAdapter<RestaurantAdapter.ViewHo
 
     private OnRestaurantSelectedListener mListener;
 
-    public RestaurantAdapter(Query query, OnRestaurantSelectedListener listener) {
+    public TrekAdapter(Query query, OnRestaurantSelectedListener listener) {
         super(query);
         mListener = listener;
     }
@@ -77,14 +77,11 @@ public class RestaurantAdapter extends FirestoreAdapter<RestaurantAdapter.ViewHo
         @BindView(R.id.restaurant_item_num_ratings)
         TextView numRatingsView;
 
-        @BindView(R.id.restaurant_item_price)
-        TextView priceView;
-
         @BindView(R.id.restaurant_item_category)
         TextView categoryView;
 
-        @BindView(R.id.restaurant_item_city)
-        TextView cityView;
+        @BindView(R.id.restaurant_item_region)
+        TextView regionView;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -94,21 +91,26 @@ public class RestaurantAdapter extends FirestoreAdapter<RestaurantAdapter.ViewHo
         public void bind(final DocumentSnapshot snapshot,
                          final OnRestaurantSelectedListener listener) {
 
-            Restaurant restaurant = snapshot.toObject(Restaurant.class);
+            TrekApplication trekApplication = (TrekApplication)(itemView.getContext().getApplicationContext());
+
+            Trek trek = snapshot.toObject(Trek.class);
             Resources resources = itemView.getResources();
+
+            String region = trekApplication.getRegionsTranslationReversedMap().get(trek.getCity());
+            String category = trekApplication.getCategoriesTranslationReversedMap().get(trek.getCategory());
 
             // Load image
             Glide.with(imageView.getContext())
-                    .load(restaurant.getPhoto())
+                    .load(trek.getPhoto())
                     .into(imageView);
 
-            nameView.setText(restaurant.getName());
-            ratingBar.setRating((float) restaurant.getAvgRating());
-            cityView.setText(restaurant.getCity());
-            categoryView.setText(restaurant.getCategory());
+            nameView.setText(trek.getName());
+            ratingBar.setRating((float) trek.getAvgRating());
+            regionView.setText(region);
+            categoryView.setText(category);
             numRatingsView.setText(resources.getString(R.string.fmt_num_ratings,
-                    restaurant.getNumRatings()));
-            priceView.setText(RestaurantUtil.getPriceString(restaurant));
+                    trek.getNumRatings()));
+
 
             // Click listener
             itemView.setOnClickListener(new View.OnClickListener() {

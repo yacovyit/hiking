@@ -24,7 +24,7 @@
         android:layout_marginBottom="4dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="-2dp"
-        android:layout_toLeftOf="@+id/restaurant_item_price"
+        android:layout_toLeftOf="@+id/restaurant_item_trek_date"
         android:layout_toRightOf="@+id/restaurant_item_image"
         android:ellipsize="end"
         android:maxLines="1"
@@ -70,7 +70,7 @@
         android:text="@string/divider_bullet" />
 
     <TextView
-        android:id="@+id/restaurant_item_city"
+        android:id="@+id/restaurant_item_region"
         style="@style/AppTheme.Body1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

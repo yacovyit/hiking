@@ -16,9 +16,9 @@
  package com.findtreks.hiking.util;
 
 import android.content.Context;
-
-import com.google.firebase.example.fireeats.R;
-import com.findtreks.hiking.model.Restaurant;
+import com.findtreks.hiking.R;
+import com.findtreks.hiking.TrekApplication;
+import com.findtreks.hiking.model.Trek;
 
 import java.util.Arrays;
 import java.util.Locale;
@@ -30,9 +30,9 @@ import java.util.concurrent.TimeUnit;
 /**
  * Utilities for Restaurants.
  */
-public class RestaurantUtil {
+public class TrekUtil {
 
-    private static final String TAG = "RestaurantUtil";
+    private static final String TAG = "TrekUtil";
 
     private static final ThreadPoolExecutor EXECUTOR = new ThreadPoolExecutor(2, 4, 60,
             TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
@@ -54,7 +54,7 @@ public class RestaurantUtil {
     };
 
     private static final String[] NAME_SECOND_WORDS = {
-            "Restaurant",
+            "Trek",
             "Cafe",
             "Spot",
             "Eatin' Place",
@@ -63,33 +63,35 @@ public class RestaurantUtil {
             "Diner",
     };
 
-
     /**
-     * Create a random Restaurant POJO.
+     * Create a random Trek POJO.
      */
-    public static Restaurant getRandom(Context context) {
-        Restaurant restaurant = new Restaurant();
+    public static Trek getRandom(Context context) {
+        Trek trek = new Trek();
         Random random = new Random();
 
-        // Cities (first elemnt is 'Any')
-        String[] cities = context.getResources().getStringArray(R.array.cities);
-        cities = Arrays.copyOfRange(cities, 1, cities.length);
+        // Regions (first elemnt is 'Any')
+        String[] regions = context.getResources().getStringArray(R.array.regions);
+        regions = Arrays.copyOfRange(regions, 1, regions.length);
 
         // Categories (first element is 'Any')
         String[] categories = context.getResources().getStringArray(R.array.categories);
         categories = Arrays.copyOfRange(categories, 1, categories.length);
 
-        int[] prices = new int[]{1, 2, 3};
+        int[] trekDates = new int[]{1, 2, 3};
+        TrekApplication trekApplication = (TrekApplication)(context.getApplicationContext());
+        String region = trekApplication.getRegionsTranslationMap().get(getRandomString(regions, random));
+        String category = trekApplication.getCategoriesTranslationMap().get(getRandomString(categories, random));
 
-        restaurant.setName(getRandomName(random));
-        restaurant.setCity(getRandomString(cities, random));
-        restaurant.setCategory(getRandomString(categories, random));
-        restaurant.setPhoto(getRandomImageUrl(random));
-        restaurant.setPrice(getRandomInt(prices, random));
-        restaurant.setAvgRating(getRandomRating(random));
-        restaurant.setNumRatings(random.nextInt(20));
+        trek.setName(getRandomName(random));
+        trek.setCity(region);
+        trek.setCategory(category);
+        trek.setPhoto(getRandomImageUrl(random));
+        trek.setPrice(getRandomInt(trekDates, random));
+        trek.setAvgRating(getRandomRating(random));
+        trek.setNumRatings(random.nextInt(20));
 
-        return restaurant;
+        return trek;
     }
 
 
@@ -106,8 +108,8 @@ public class RestaurantUtil {
     /**
      * Get price represented as dollar signs.
      */
-    public static String getPriceString(Restaurant restaurant) {
-        return getPriceString(restaurant.getPrice());
+    public static String getPriceString(Trek trek) {
+        return getPriceString(trek.getPrice());
     }
 
     /**

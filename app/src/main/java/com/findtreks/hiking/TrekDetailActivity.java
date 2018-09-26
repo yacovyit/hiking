@@ -30,14 +30,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.findtreks.hiking.model.Trek;
+import com.findtreks.hiking.util.TrekUtil;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.findtreks.hiking.adapter.RatingAdapter;
 import com.findtreks.hiking.model.Rating;
-import com.findtreks.hiking.model.Restaurant;
-import com.findtreks.hiking.util.RestaurantUtil;
-import com.google.firebase.example.fireeats.R;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -78,7 +77,7 @@ public class TrekDetailActivity extends AppCompatActivity
     TextView mCategoryView;
 
     @BindView(R.id.restaurant_price)
-    TextView mPriceView;
+    TextView mTrekDateView;
 
     @BindView(R.id.view_empty_ratings)
     ViewGroup mEmptyView;
@@ -101,8 +100,8 @@ public class TrekDetailActivity extends AppCompatActivity
         ButterKnife.bind(this);
 
         // Get restaurant ID from extras
-        String restaurantId = getIntent().getExtras().getString(KEY_RESTAURANT_ID);
-        if (restaurantId == null) {
+        String trekId = getIntent().getExtras().getString(KEY_RESTAURANT_ID);
+        if (trekId == null) {
             throw new IllegalArgumentException("Must pass extra " + KEY_RESTAURANT_ID);
         }
 
@@ -110,7 +109,7 @@ public class TrekDetailActivity extends AppCompatActivity
         mFirestore = FirebaseFirestore.getInstance();
 
         // Get reference to the restaurant
-        mRestaurantRef = mFirestore.collection("restaurants").document(restaurantId);
+        mRestaurantRef = mFirestore.collection("restaurants").document(trekId);
 
         // Get ratings
         Query ratingsQuery = mRestaurantRef
@@ -170,24 +169,24 @@ public class TrekDetailActivity extends AppCompatActivity
             public Void apply(Transaction transaction)
                     throws FirebaseFirestoreException {
 
-                Restaurant restaurant = transaction.get(restaurantRef)
-                        .toObject(Restaurant.class);
+                Trek trek = transaction.get(restaurantRef)
+                        .toObject(Trek.class);
 
                 // Compute new number of ratings
-                int newNumRatings = restaurant.getNumRatings() + 1;
+                int newNumRatings = trek.getNumRatings() + 1;
 
                 // Compute new average rating
-                double oldRatingTotal = restaurant.getAvgRating() *
-                        restaurant.getNumRatings();
+                double oldRatingTotal = trek.getAvgRating() *
+                        trek.getNumRatings();
                 double newAvgRating = (oldRatingTotal + rating.getRating()) /
                         newNumRatings;
 
-                // Set new restaurant info
-                restaurant.setNumRatings(newNumRatings);
-                restaurant.setAvgRating(newAvgRating);
+                // Set new trek info
+                trek.setNumRatings(newNumRatings);
+                trek.setAvgRating(newAvgRating);
 
                 // Commit to Firestore
-                transaction.set(restaurantRef, restaurant);
+                transaction.set(restaurantRef, trek);
                 transaction.set(ratingRef, rating);
 
                 return null;
@@ -196,7 +195,7 @@ public class TrekDetailActivity extends AppCompatActivity
     }
 
     /**
-     * Listener for the Restaurant document ({@link #mRestaurantRef}).
+     * Listener for the Trek document ({@link #mRestaurantRef}).
      */
     @Override
     public void onEvent(DocumentSnapshot snapshot, FirebaseFirestoreException e) {
@@ -205,20 +204,26 @@ public class TrekDetailActivity extends AppCompatActivity
             return;
         }
 
-        onRestaurantLoaded(snapshot.toObject(Restaurant.class));
+        onRestaurantLoaded(snapshot.toObject(Trek.class));
     }
 
-    private void onRestaurantLoaded(Restaurant restaurant) {
-        mNameView.setText(restaurant.getName());
-        mRatingIndicator.setRating((float) restaurant.getAvgRating());
-        mNumRatingsView.setText(getString(R.string.fmt_num_ratings, restaurant.getNumRatings()));
-        mCityView.setText(restaurant.getCity());
-        mCategoryView.setText(restaurant.getCategory());
-        mPriceView.setText(RestaurantUtil.getPriceString(restaurant));
+    private void onRestaurantLoaded(Trek trek) {
+
+        TrekApplication trekApplication = (TrekApplication)(this.getApplication().getApplicationContext());
+
+        String region = trekApplication.getRegionsTranslationReversedMap().get(trek.getCity());
+        String category = trekApplication.getCategoriesTranslationReversedMap().get(trek.getCategory());
+
+        mNameView.setText(trek.getName());
+        mRatingIndicator.setRating((float) trek.getAvgRating());
+        mNumRatingsView.setText(getString(R.string.fmt_num_ratings, trek.getNumRatings()));
+        mCityView.setText(region);
+        mCategoryView.setText(category);
+        mTrekDateView.setText(TrekUtil.getPriceString(trek));
 
         // Background image
         Glide.with(mImageView.getContext())
-                .load(restaurant.getPhoto())
+                .load(trek.getPhoto())
                 .into(mImageView);
     }
 
