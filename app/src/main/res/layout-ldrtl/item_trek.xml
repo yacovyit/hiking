@@ -19,7 +19,7 @@
 
 
         android:scaleType="centerCrop"
-        app:srcCompat="@drawable/ic_directions_walk_black_24dp"
+        app:srcCompat="@drawable/ic_directions_walk_gray_24dp"
         android:layout_alignParentRight="true" />
 
     <TextView

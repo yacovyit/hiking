@@ -13,7 +13,7 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:scaleType="centerCrop"
-        app:srcCompat="@drawable/ic_directions_walk_black_24dp" />
+        app:srcCompat="@drawable/ic_directions_walk_gray_24dp" />
 
     <TextView
         android:id="@+id/trek_item_name"
