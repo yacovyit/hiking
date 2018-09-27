@@ -96,5 +96,8 @@
     <string name="uploaded_failed">העלאת התמונה נכשלה</string>
     <string name="uploading">מעלה ...</string>
     <string name="select_an_action">בחר</string>
+    <string name="time_next_week">שבוע הבא</string>
+    <string name="time_this_month">החודש</string>
+    <string name="time_next_month">חודש הבא</string>
 
 </resources>

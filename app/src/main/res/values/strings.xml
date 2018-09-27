@@ -12,6 +12,9 @@
     <string name="time_today">Today</string>
     <string name="time_tomorrow">Tomorrow</string>
     <string name="time_this_week">This week</string>
+    <string name="time_next_week">Next week</string>
+    <string name="time_this_month">This Month</string>
+    <string name="time_next_month">Next Month</string>
 
     <string name="label_category">Category</string>
     <string name="label_region">Region</string>
@@ -110,6 +113,9 @@
         <item>@string/time_today</item>
         <item>@string/time_tomorrow</item>
         <item>@string/time_this_week</item>
+        <item>@string/time_next_week</item>
+        <item>@string/time_this_month</item>
+        <item>@string/time_next_month</item>
     </string-array>
 
     <!-- Ways you can sort restaurants -->

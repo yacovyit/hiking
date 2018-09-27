@@ -28,9 +28,8 @@ public class Filters {
 
     private String category = null;
     private String region = null;
-    private long trekTime;
+    private long[] trekTime;
     private String trekTimePeriod;
-    private String trekTimePeriodDefault;
     private String sortBy = null;
     private Query.Direction sortDirection = null;
 
@@ -53,14 +52,14 @@ public class Filters {
     }
 
     public boolean hasTrekDate() {
-        return trekTime > 0;
+        return trekTime != null;
     }
 
-    public long getTrekTime() {
+    public long[] getTrekTime() {
         return trekTime;
     }
 
-    public void setTrekTime(long trekTime) {
+    public void setTrekTime(long[] trekTime) {
         this.trekTime = trekTime;
     }
 
@@ -90,14 +89,6 @@ public class Filters {
 
     public void setTrekTimePeriod(String trekTimePeriod) {
         this.trekTimePeriod = trekTimePeriod;
-    }
-
-    public String getTrekTimePeriodDefault() {
-        return trekTimePeriodDefault;
-    }
-
-    public void setTrekTimePeriodDefault(String trekTimePeriodDefault) {
-        this.trekTimePeriodDefault = trekTimePeriodDefault;
     }
 
     public String getSortBy() {

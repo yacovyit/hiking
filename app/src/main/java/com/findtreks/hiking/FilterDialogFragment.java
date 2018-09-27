@@ -127,25 +127,63 @@ public class FilterDialogFragment extends DialogFragment {
         String selected = (String) mPriceSpinner.getSelectedItem();
         return selected;
     }
-    private long getSelectedTrekDate() {
+    private long[] getSelectedTrekDate() {
         String selected = (String) mPriceSpinner.getSelectedItem();
         Calendar c = Calendar.getInstance();
         TrekUtil.setStartOfDateCalender(c);
+        long[] startEndTime = new long[2];
+
+
+        //now for end time
         if (selected.equals(getString(R.string.time_today))) {
-           //
+            //start time and end time is the same
+            startEndTime[0] = c.getTimeInMillis();
+            startEndTime[1] = c.getTimeInMillis();
         } else if (selected.equals(getString(R.string.time_tomorrow))) {
+            //start time and end time with diff of 1 day
+            startEndTime[0] = c.getTimeInMillis();
             c.add(Calendar.DATE, 1);
+            startEndTime[1] = c.getTimeInMillis();
         } else if (selected.equals(getString(R.string.time_this_week))) {
+            startEndTime[0] = c.getTimeInMillis();
             //add 7 days
             c.add(Calendar.DATE, 7);
             //got back to the first day of the next week
             c.set(Calendar.DAY_OF_WEEK,c.getFirstDayOfWeek());
             //from the first day subtract 1 day
             c.add(Calendar.DATE, -1);
+            startEndTime[1] = c.getTimeInMillis();
+        }else if (selected.equals(getString(R.string.time_next_week))) {
+            //add 7 days
+            c.add(Calendar.DATE, 7);
+            //got back to the first day of the next week
+            c.set(Calendar.DAY_OF_WEEK,c.getFirstDayOfWeek());
+            startEndTime[0] = c.getTimeInMillis();
+            //add 7 days
+            c.add(Calendar.DATE, 7);
+            //got back to the first day of the next next week
+            c.set(Calendar.DAY_OF_WEEK,c.getFirstDayOfWeek());
+            //from the first day subtract 1 day
+            c.add(Calendar.DATE, -1);
+            startEndTime[1] = c.getTimeInMillis();
+        }else if (selected.equals(getString(R.string.time_this_month))) {
+            //today
+            startEndTime[0] = c.getTimeInMillis();
+            c.set(Calendar.DATE, c.getActualMaximum(Calendar.DAY_OF_MONTH));
+            //last day of this month
+            startEndTime[1] = c.getTimeInMillis();
+        }else if (selected.equals(getString(R.string.time_next_month))) {
+            c.add(Calendar.MONTH, 1);
+            //first day of the next month
+            c.set(Calendar.DATE, c.getActualMinimum(Calendar.DAY_OF_MONTH));
+            startEndTime[0] = c.getTimeInMillis();
+            //last day of the next month
+            c.set(Calendar.DATE, c.getActualMaximum(Calendar.DAY_OF_MONTH));
+            startEndTime[1] = c.getTimeInMillis();
         } else {
-            return 0;
+            return null;
         }
-        return c.getTimeInMillis();
+        return startEndTime;
     }
 
     @Nullable
@@ -194,13 +232,12 @@ public class FilterDialogFragment extends DialogFragment {
             TrekApplication trekApplication = (TrekApplication)(this.getContext().getApplicationContext());
             String category = trekApplication.getCategoriesTranslationMap().get(getSelectedCategory());
             String region = trekApplication.getRegionsTranslationMap().get(getSelectedRegion());
-            String trekTimePeriod = getSelectedTrekDatePeriod();
-            String trekTimePeriodTranslated = trekApplication.getTrekDateTranslationMap().get(trekTimePeriod);
+
+            String trekTimePeriod= trekApplication.getTrekDateTranslationMap().get(getSelectedTrekDatePeriod());
 
             filters.setCategory(category);
             filters.setRegion(region);
-            filters.setTrekTimePeriod(trekTimePeriodTranslated);
-            filters.setTrekTimePeriodDefault(trekTimePeriod);
+            filters.setTrekTimePeriod(trekTimePeriod);
             filters.setTrekTime(getSelectedTrekDate());
             filters.setSortBy(getSelectedSortBy());
             filters.setSortDirection(getSortDirection());

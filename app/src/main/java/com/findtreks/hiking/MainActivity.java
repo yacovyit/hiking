@@ -197,15 +197,14 @@ public class MainActivity extends AppCompatActivity implements
         }
 
         // Trek date (equality filter)
-        long trekTime = filters.getTrekTime();
-        if (filters.hasTrekDate() && trekTime > 0) {
-
-            if (!filters.getTrekTimePeriodDefault().equals(this.getResources().getString(R.string.time_tomorrow))){
-                query = query.whereLessThanOrEqualTo("trekStartDate", trekTime);
-            }else{
-                query = query.whereEqualTo("trekStartDate", trekTime);
-            }
+        long[] trekTime = filters.getTrekTime();
+        if (filters.hasTrekDate() && trekTime != null) {
+            //grater then start date
+            query = query.whereGreaterThanOrEqualTo("trekStartDate", trekTime[0]);
+            //less then end date
+            query = query.whereLessThanOrEqualTo("trekStartDate", trekTime[1]);
             query = query.orderBy("trekStartDate", Query.Direction.ASCENDING);
+
         }
 
         // Sort by (orderBy with direction)
