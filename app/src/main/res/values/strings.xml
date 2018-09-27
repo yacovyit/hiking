@@ -124,5 +124,6 @@
     <string name="uploaded_success">Uploaded</string>
     <string name="uploaded_failed">Uploaded Failed</string>
     <string name="uploading">Uploading...</string>
+    <string name="select_an_action">Select an action</string>
 
 </resources>

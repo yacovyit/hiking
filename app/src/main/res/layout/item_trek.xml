@@ -51,19 +51,33 @@
         android:gravity="center_vertical"
         android:textColor="@color/greyDisabled"
         tools:text="(10)" />
-
+    <TextView
+        android:id="@+id/trek_item_date"
+        style="@style/AppTheme.Body1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/trek_item_rating"
+        android:layout_alignLeft="@+id/trek_item_name"
+        android:textColor="@color/greySecondary"
+        tools:text="Italian" />
+    <TextView
+        android:id="@+id/trek_item_date_divider"
+        style="@style/AppTheme.TextDivider"
+        android:layout_alignTop="@+id/trek_item_category"
+        android:layout_toRightOf="@+id/trek_item_date"
+        android:text="@string/divider_bullet" />
     <TextView
         android:id="@+id/trek_item_category"
         style="@style/AppTheme.Body1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/trek_item_name"
+        android:layout_toRightOf="@+id/trek_item_date_divider"
         android:layout_below="@+id/trek_item_rating"
         android:textColor="@color/greySecondary"
         tools:text="Italian" />
 
     <TextView
-        android:id="@+id/restaurant_item_city_divider"
+        android:id="@+id/trek_item_city_divider"
         style="@style/AppTheme.TextDivider"
         android:layout_alignTop="@+id/trek_item_category"
         android:layout_toRightOf="@+id/trek_item_category"
@@ -75,7 +89,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/trek_item_category"
-        android:layout_toRightOf="@+id/restaurant_item_city_divider"
+        android:layout_toRightOf="@+id/trek_item_city_divider"
         android:textColor="@color/greySecondary"
         tools:text="San Francisco" />
 

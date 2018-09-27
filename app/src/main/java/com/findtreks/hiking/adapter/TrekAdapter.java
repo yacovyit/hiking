@@ -36,6 +36,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
@@ -85,6 +88,9 @@ public class TrekAdapter extends FirestoreAdapter<TrekAdapter.ViewHolder> {
         @BindView(R.id.trek_item_num_ratings)
         TextView numRatingsView;
 
+        @BindView(R.id.trek_item_date)
+        TextView dateView;
+
         @BindView(R.id.trek_item_category)
         TextView categoryView;
 
@@ -132,6 +138,7 @@ public class TrekAdapter extends FirestoreAdapter<TrekAdapter.ViewHolder> {
             ratingBar.setRating((float) trek.getAvgRating());
             regionView.setText(region);
             categoryView.setText(category);
+            dateView.setText(new SimpleDateFormat("EEE, dd/MM/yyyy").format(new Date(trek.getTrekStartDate())));
             numRatingsView.setText(resources.getString(R.string.fmt_num_ratings,
                     trek.getNumRatings()));
 
