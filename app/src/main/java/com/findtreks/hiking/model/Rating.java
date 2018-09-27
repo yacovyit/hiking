@@ -31,12 +31,12 @@ public class Rating {
     private String userName;
     private double rating;
     private String text;
-    private String availability;
+    private boolean coming;
     private @ServerTimestamp Date timestamp;
 
     public Rating() {}
 
-    public Rating(FirebaseUser user, double rating, String text) {
+    public Rating(FirebaseUser user, double rating, String text,boolean isComing) {
         this.userId = user.getUid();
         this.userName = user.getDisplayName();
         if (TextUtils.isEmpty(this.userName)) {
@@ -45,6 +45,7 @@ public class Rating {
 
         this.rating = rating;
         this.text = text;
+        this.coming = isComing;
     }
 
     public String getUserId() {
@@ -87,11 +88,11 @@ public class Rating {
         this.timestamp = timestamp;
     }
 
-    public String getAvailability() {
-        return availability;
+    public boolean getComing() {
+        return coming;
     }
 
-    public void setAvailability(String availability) {
-        this.availability = availability;
+    public void setComing(Boolean coming) {
+        this.coming = coming;
     }
 }

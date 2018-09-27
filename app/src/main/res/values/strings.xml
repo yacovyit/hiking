@@ -131,5 +131,7 @@
     <string name="uploaded_failed">Uploaded Failed</string>
     <string name="uploading">Uploading...</string>
     <string name="select_an_action">Select an action</string>
+    <string name="coming">Coming</string>
+    <string name="not_coming">Not Coming</string>
 
 </resources>

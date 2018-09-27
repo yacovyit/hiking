@@ -23,6 +23,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ToggleButton;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.findtreks.hiking.model.Rating;
 import butterknife.BindView;
@@ -43,21 +45,23 @@ public class RatingDialogFragment extends DialogFragment {
     @BindView(R.id.restaurant_form_text)
     EditText mRatingText;
 
+    @BindView(R.id.toggleButtonIsComing)
+    ToggleButton mToggleButtonIsComing;
     interface RatingListener {
-
         void onRating(Rating rating, String ratingId);
-
     }
 
     private RatingListener mRatingListener;
     private String text ;
     private Double rating;
+    private Boolean isComing;
     private String ratingId;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         text = getArguments().getString("text");
         rating = getArguments().getDouble("rating");
+        isComing = getArguments().getBoolean("coming",false);
         ratingId = getArguments().getString("ratingId");
 
     }
@@ -75,7 +79,7 @@ public class RatingDialogFragment extends DialogFragment {
         }else{
             mRatingBar.setRating(0);
         }
-
+        mToggleButtonIsComing.setChecked(isComing);
         return v;
     }
 
@@ -102,7 +106,8 @@ public class RatingDialogFragment extends DialogFragment {
         Rating rating = new Rating(
                 FirebaseAuth.getInstance().getCurrentUser(),
                 mRatingBar.getRating(),
-                mRatingText.getText().toString());
+                mRatingText.getText().toString(),
+                mToggleButtonIsComing.isChecked());
 
         if (mRatingListener != null) {
             mRatingListener.onRating(rating, ratingId);

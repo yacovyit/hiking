@@ -217,6 +217,8 @@ public class TrekDetailActivity extends AppCompatActivity
 
                     ratingMap.put("rating",rating.getRating());
                     ratingMap.put("text",rating.getText());
+                    ratingMap.put("coming",rating.getComing());
+
                     transaction.update(ratingRefInsertUpdate, ratingMap);
                 }else{
                     transaction.set(ratingRefInsertUpdate, rating);
@@ -295,6 +297,7 @@ public class TrekDetailActivity extends AppCompatActivity
                 String text = null;
                 Double rating = null;
                 String ratingId = null;
+                boolean isComing = false;
                 if(task.isComplete()){
                     QuerySnapshot queryDocumentSnapshots = task.getResult();
                     List<DocumentSnapshot> documents = queryDocumentSnapshots.getDocuments();
@@ -303,9 +306,10 @@ public class TrekDetailActivity extends AppCompatActivity
                         Map<String, Object> ratingMap  = documents.get(0).getData();
                         rating = (Double)ratingMap.get("rating");
                         text = (String) ratingMap.get("text");
+                        isComing = (Boolean) ratingMap.get("coming");
                         ratingId = documents.get(0).getId();
                     }
-                    newInstance(rating, text, ratingId).show(getSupportFragmentManager(), RatingDialogFragment.TAG);
+                    newInstance(rating, text, isComing, ratingId).show(getSupportFragmentManager(), RatingDialogFragment.TAG);
                 }
             }
         });
@@ -348,13 +352,14 @@ public class TrekDetailActivity extends AppCompatActivity
                     .hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
-    public static RatingDialogFragment newInstance(Double rating,String text,String ratingId) {
+    public static RatingDialogFragment newInstance(Double rating,String text,boolean isComing, String ratingId) {
         RatingDialogFragment f = new RatingDialogFragment();
 
         // Supply num input as an argument.
         Bundle args = new Bundle();
         args.putDouble("rating", rating == null ? 0 : rating.doubleValue());
         args.putString("text", text);
+        args.putBoolean("coming", isComing);
         args.putString("ratingId", ratingId);
         f.setArguments(args);
 

@@ -12,6 +12,15 @@
         android:layout_marginBottom="8dp"
         android:text="@string/filter_register_to_trek" />
 
+    <ToggleButton
+        android:id="@+id/toggleButtonIsComing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textOn="@string/coming"
+        android:layout_gravity="center"
+        android:textOff="@string/not_coming"
+        android:text="ToggleButton" />
+
     <me.zhanghai.android.materialratingbar.MaterialRatingBar
         android:id="@+id/restaurant_form_rating"
         style="@style/Widget.MaterialRatingBar.RatingBar"

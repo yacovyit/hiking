@@ -20,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.findtreks.hiking.R;
 import com.findtreks.hiking.model.Rating;
@@ -66,6 +67,9 @@ public class RatingAdapter extends FirestoreAdapter<RatingAdapter.ViewHolder> {
         @BindView(R.id.rating_item_text)
         TextView textView;
 
+        @BindView(R.id.toggleButtonIsComing)
+        ToggleButton isComingToggleButton;
+
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -75,8 +79,10 @@ public class RatingAdapter extends FirestoreAdapter<RatingAdapter.ViewHolder> {
             nameView.setText(rating.getUserName());
             ratingBar.setRating((float) rating.getRating());
             textView.setText(rating.getText());
-            dateView.setText(new SimpleDateFormat("EEE, dd/MM/yyyy")
+            dateView.setText(new SimpleDateFormat("EEE, dd/MM/yyyy HH:mm")
                     .format(new Date(rating.getTimestamp().getTime())));
+            isComingToggleButton.setChecked(rating.getComing());
+
         }
     }
 

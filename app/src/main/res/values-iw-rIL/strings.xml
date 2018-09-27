@@ -99,5 +99,7 @@
     <string name="time_next_week">שבוע הבא</string>
     <string name="time_this_month">החודש</string>
     <string name="time_next_month">חודש הבא</string>
+    <string name="coming">ברור שאבוא</string>
+    <string name="not_coming">לא אגיע</string>
 
 </resources>
