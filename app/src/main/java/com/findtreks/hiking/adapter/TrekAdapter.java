@@ -73,22 +73,22 @@ public class TrekAdapter extends FirestoreAdapter<TrekAdapter.ViewHolder> {
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.restaurant_item_image)
+        @BindView(R.id.trek_item_image)
         ImageView imageView;
 
-        @BindView(R.id.restaurant_item_name)
+        @BindView(R.id.trek_item_name)
         TextView nameView;
 
-        @BindView(R.id.restaurant_item_rating)
+        @BindView(R.id.trek_item_rating)
         MaterialRatingBar ratingBar;
 
-        @BindView(R.id.restaurant_item_num_ratings)
+        @BindView(R.id.trek_item_num_ratings)
         TextView numRatingsView;
 
-        @BindView(R.id.restaurant_item_category)
+        @BindView(R.id.trek_item_category)
         TextView categoryView;
 
-        @BindView(R.id.restaurant_item_region)
+        @BindView(R.id.trek_item_region)
         TextView regionView;
         private StorageReference storageReference;
         public ViewHolder(View itemView) {
