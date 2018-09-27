@@ -30,7 +30,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.findtreks.hiking.model.Trek;
 import com.findtreks.hiking.util.TrekUtil;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -64,25 +63,25 @@ public class TrekDetailActivity extends AppCompatActivity
 
     public static final String KEY_TREK_ID = "key_trek_id";
 
-    @BindView(R.id.restaurant_image)
+    @BindView(R.id.trek_image)
     ImageView mImageView;
 
-    @BindView(R.id.restaurant_name)
+    @BindView(R.id.trek_name)
     TextView mNameView;
 
-    @BindView(R.id.restaurant_rating)
+    @BindView(R.id.trek_rating)
     MaterialRatingBar mRatingIndicator;
 
-    @BindView(R.id.restaurant_num_ratings)
+    @BindView(R.id.trek_num_ratings)
     TextView mNumRatingsView;
 
-    @BindView(R.id.restaurant_city)
+    @BindView(R.id.trek_city)
     TextView mCityView;
 
-    @BindView(R.id.restaurant_category)
+    @BindView(R.id.trek_category)
     TextView mCategoryView;
 
-    @BindView(R.id.restaurant_price)
+    @BindView(R.id.trek_price)
     TextView mTrekDateView;
 
     @BindView(R.id.view_empty_ratings)
@@ -248,7 +247,7 @@ public class TrekDetailActivity extends AppCompatActivity
                 .into(mImageView);*/
     }
 
-    @OnClick(R.id.restaurant_button_back)
+    @OnClick(R.id.trek_button_back)
     public void onBackArrowClicked(View view) {
         onBackPressed();
     }
