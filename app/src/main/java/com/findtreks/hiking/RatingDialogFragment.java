@@ -45,11 +45,22 @@ public class RatingDialogFragment extends DialogFragment {
 
     interface RatingListener {
 
-        void onRating(Rating rating);
+        void onRating(Rating rating, String ratingId);
 
     }
 
     private RatingListener mRatingListener;
+    private String text ;
+    private Double rating;
+    private String ratingId;
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        text = getArguments().getString("text");
+        rating = getArguments().getDouble("rating");
+        ratingId = getArguments().getString("ratingId");
+
+    }
 
     @Nullable
     @Override
@@ -58,6 +69,12 @@ public class RatingDialogFragment extends DialogFragment {
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.dialog_rating, container, false);
         ButterKnife.bind(this, v);
+        mRatingText.setText(text);
+        if (rating != null){
+            mRatingBar.setRating((rating.floatValue()));
+        }else{
+            mRatingBar.setRating(0);
+        }
 
         return v;
     }
@@ -88,7 +105,7 @@ public class RatingDialogFragment extends DialogFragment {
                 mRatingText.getText().toString());
 
         if (mRatingListener != null) {
-            mRatingListener.onRating(rating);
+            mRatingListener.onRating(rating, ratingId);
         }
 
         dismiss();

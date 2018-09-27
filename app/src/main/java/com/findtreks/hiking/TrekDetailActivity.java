@@ -31,12 +31,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.findtreks.hiking.model.Trek;
-import com.findtreks.hiking.util.TrekUtil;
+import com.google.android.gms.common.data.ObjectDataBuffer;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.findtreks.hiking.adapter.RatingAdapter;
 import com.findtreks.hiking.model.Rating;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -44,6 +46,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.Transaction;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -51,6 +54,9 @@ import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -93,7 +99,7 @@ public class TrekDetailActivity extends AppCompatActivity
     @BindView(R.id.recycler_ratings)
     RecyclerView mRatingsRecycler;
 
-    private RatingDialogFragment mRatingDialog;
+    //private RatingDialogFragment mRatingDialog;
 
     private FirebaseFirestore mFirestore;
     private DocumentReference mTreksRef;
@@ -124,6 +130,7 @@ public class TrekDetailActivity extends AppCompatActivity
         // Get ratings
         Query ratingsQuery = mTreksRef
                 .collection("ratings")
+
                 .orderBy("timestamp", Query.Direction.DESCENDING)
                 .limit(50);
 
@@ -144,7 +151,7 @@ public class TrekDetailActivity extends AppCompatActivity
         mRatingsRecycler.setLayoutManager(new LinearLayoutManager(this));
         mRatingsRecycler.setAdapter(mRatingAdapter);
 
-        mRatingDialog = new RatingDialogFragment();
+        //mRatingDialog = new RatingDialogFragment();
     }
 
     @Override
@@ -167,11 +174,18 @@ public class TrekDetailActivity extends AppCompatActivity
         }
     }
 
-    private Task<Void> addRating(final DocumentReference restaurantRef,
-                                 final Rating rating) {
+    private Task<Void> addRating(final DocumentReference trekRef,
+                                 final Rating rating, final String ratingId) {
         // Create reference for new rating, for use inside the transaction
-        final DocumentReference ratingRef = restaurantRef.collection("ratings")
-                .document();
+        DocumentReference ratingRef;
+        if (ratingId != null){
+            ratingRef = trekRef.collection("ratings")
+                    .document(ratingId);
+        }else{
+            ratingRef = trekRef.collection("ratings")
+                    .document();
+        }
+        final DocumentReference ratingRefInsertUpdate = ratingRef;
 
         // In a transaction, add the new rating and update the aggregate totals
         return mFirestore.runTransaction(new Transaction.Function<Void>() {
@@ -179,8 +193,9 @@ public class TrekDetailActivity extends AppCompatActivity
             public Void apply(Transaction transaction)
                     throws FirebaseFirestoreException {
 
-                Trek trek = transaction.get(restaurantRef)
+                Trek trek = transaction.get(trekRef)
                         .toObject(Trek.class);
+
 
                 // Compute new number of ratings
                 int newNumRatings = trek.getNumRatings() + 1;
@@ -196,8 +211,18 @@ public class TrekDetailActivity extends AppCompatActivity
                 trek.setAvgRating(newAvgRating);
 
                 // Commit to Firestore
-                transaction.set(restaurantRef, trek);
-                transaction.set(ratingRef, rating);
+                transaction.set(trekRef, trek);
+                if (ratingId!=null){
+                    Map<String,Object> ratingMap = new HashMap<>();
+
+                    ratingMap.put("rating",rating.getRating());
+                    ratingMap.put("text",rating.getText());
+                    transaction.update(ratingRefInsertUpdate, ratingMap);
+                }else{
+                    transaction.set(ratingRefInsertUpdate, rating);
+                }
+
+
 
                 return null;
             }
@@ -214,10 +239,10 @@ public class TrekDetailActivity extends AppCompatActivity
             return;
         }
 
-        onRestaurantLoaded(snapshot.toObject(Trek.class));
+        onTrekLoaded(snapshot.toObject(Trek.class));
     }
 
-    private void onRestaurantLoaded(Trek trek) {
+    private void onTrekLoaded(Trek trek) {
 
         TrekApplication trekApplication = (TrekApplication)(this.getApplication().getApplicationContext());
 
@@ -259,13 +284,40 @@ public class TrekDetailActivity extends AppCompatActivity
 
     @OnClick(R.id.fab_show_rating_dialog)
     public void onAddRatingClicked(View view) {
-        mRatingDialog.show(getSupportFragmentManager(), RatingDialogFragment.TAG);
+        final DocumentReference ratingRef = mTreksRef.collection("ratings")
+                .document();
+        Query userRating= mTreksRef
+                .collection("ratings")
+                .whereEqualTo("userId",FirebaseAuth.getInstance().getCurrentUser().getUid());
+        userRating.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                String text = null;
+                Double rating = null;
+                String ratingId = null;
+                if(task.isComplete()){
+                    QuerySnapshot queryDocumentSnapshots = task.getResult();
+                    List<DocumentSnapshot> documents = queryDocumentSnapshots.getDocuments();
+
+                    if (documents.size()>0){
+                        Map<String, Object> ratingMap  = documents.get(0).getData();
+                        rating = (Double)ratingMap.get("rating");
+                        text = (String) ratingMap.get("text");
+                        ratingId = documents.get(0).getId();
+                    }
+                    newInstance(rating, text, ratingId).show(getSupportFragmentManager(), RatingDialogFragment.TAG);
+                }
+            }
+        });
+
+
+        //mRatingDialog.show(getSupportFragmentManager(), RatingDialogFragment.TAG);
     }
 
     @Override
-    public void onRating(Rating rating) {
+    public void onRating(Rating rating, String ratingId) {
         // In a transaction, add the new rating and update the aggregate totals
-        addRating(mTreksRef, rating)
+        addRating(mTreksRef, rating, ratingId)
                 .addOnSuccessListener(this, new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -296,4 +348,17 @@ public class TrekDetailActivity extends AppCompatActivity
                     .hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
+    public static RatingDialogFragment newInstance(Double rating,String text,String ratingId) {
+        RatingDialogFragment f = new RatingDialogFragment();
+
+        // Supply num input as an argument.
+        Bundle args = new Bundle();
+        args.putDouble("rating", rating == null ? 0 : rating.doubleValue());
+        args.putString("text", text);
+        args.putString("ratingId", ratingId);
+        f.setArguments(args);
+
+        return f;
+    }
+
 }
