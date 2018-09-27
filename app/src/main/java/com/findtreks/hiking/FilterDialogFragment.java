@@ -24,6 +24,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Spinner;
 import com.findtreks.hiking.model.Trek;
+import com.findtreks.hiking.util.TrekUtil;
 import com.google.firebase.firestore.Query;
 
 import java.util.Calendar;
@@ -129,7 +130,7 @@ public class FilterDialogFragment extends DialogFragment {
     private long getSelectedTrekDate() {
         String selected = (String) mPriceSpinner.getSelectedItem();
         Calendar c = Calendar.getInstance();
-
+        TrekUtil.setStartOfDateCalender(c);
         if (selected.equals(getString(R.string.time_today))) {
            //
         } else if (selected.equals(getString(R.string.time_tomorrow))) {
@@ -139,7 +140,10 @@ public class FilterDialogFragment extends DialogFragment {
             c.add(Calendar.DATE, 7);
             //got back to the first day of the next week
             c.set(Calendar.DAY_OF_WEEK,c.getFirstDayOfWeek());
+            //from the first day subtract 1 day
+            c.add(Calendar.DATE, -1);
         } else {
+            return 0;
         }
         return c.getTimeInMillis();
     }
@@ -190,11 +194,13 @@ public class FilterDialogFragment extends DialogFragment {
             TrekApplication trekApplication = (TrekApplication)(this.getContext().getApplicationContext());
             String category = trekApplication.getCategoriesTranslationMap().get(getSelectedCategory());
             String region = trekApplication.getRegionsTranslationMap().get(getSelectedRegion());
-            String trekTimePeriod = trekApplication.getTrekDateTranslationMap().get(getSelectedTrekDatePeriod());
+            String trekTimePeriod = getSelectedTrekDatePeriod();
+            String trekTimePeriodTranslated = trekApplication.getTrekDateTranslationMap().get(trekTimePeriod);
 
             filters.setCategory(category);
             filters.setRegion(region);
-            filters.setTrekTimePeriod(trekTimePeriod);
+            filters.setTrekTimePeriod(trekTimePeriodTranslated);
+            filters.setTrekTimePeriodDefault(trekTimePeriod);
             filters.setTrekTime(getSelectedTrekDate());
             filters.setSortBy(getSelectedSortBy());
             filters.setSortDirection(getSortDirection());

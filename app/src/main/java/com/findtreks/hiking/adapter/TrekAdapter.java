@@ -138,7 +138,8 @@ public class TrekAdapter extends FirestoreAdapter<TrekAdapter.ViewHolder> {
             ratingBar.setRating((float) trek.getAvgRating());
             regionView.setText(region);
             categoryView.setText(category);
-            dateView.setText(new SimpleDateFormat("EEE, dd/MM/yyyy").format(new Date(trek.getTrekStartDate())));
+            dateView.setText(new SimpleDateFormat("EEE, dd/MM/yyyy")
+                    .format(new Date(trek.getTrekStartDate())));
             numRatingsView.setText(resources.getString(R.string.fmt_num_ratings,
                     trek.getNumRatings()));
 

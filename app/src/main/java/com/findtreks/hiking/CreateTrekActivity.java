@@ -131,7 +131,7 @@ public class CreateTrekActivity extends AppCompatActivity implements DatePickerD
 
             trek.setCategory(category);
             trek.setCity(region);
-            trek.setTrekStartDate(getSelectedTrekDate().getTime());
+            trek.setTrekStartDate(TrekUtil.getStartOfDate(new Date(getSelectedTrekDate().getTime())).getTime());
             trek.setName(getTreDetails());
             trek.setPhoto(uuidTrekImage.toString());
 
@@ -213,9 +213,7 @@ public class CreateTrekActivity extends AppCompatActivity implements DatePickerD
             filePath = data.getData();
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                ImageViewCompat.setImageTintList( mImageViewTrek,null);
-                mImageViewTrek.setImageBitmap(bitmap);
-                uploadImage();
+                uploadImage(bitmap);
             }
             catch (IOException e)
             {
@@ -229,7 +227,7 @@ public class CreateTrekActivity extends AppCompatActivity implements DatePickerD
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, getResources().getString(R.string.select_image)), PICK_IMAGE_REQUEST);
     }
-    private void uploadImage() {
+    private void uploadImage(final Bitmap bitmap) {
 
         if(filePath != null)
         {
@@ -243,6 +241,8 @@ public class CreateTrekActivity extends AppCompatActivity implements DatePickerD
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             imageUploaded = true;
+                            ImageViewCompat.setImageTintList( mImageViewTrek,null);
+                            mImageViewTrek.setImageBitmap(bitmap);
                             progressDialog.dismiss();
                             Toast.makeText(CreateTrekActivity.this, getResources().getString(R.string.uploaded_success), Toast.LENGTH_SHORT).show();
                         }

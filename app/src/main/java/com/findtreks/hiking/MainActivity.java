@@ -44,6 +44,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 
 import java.util.Collections;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -196,8 +197,14 @@ public class MainActivity extends AppCompatActivity implements
         }
 
         // Trek date (equality filter)
-        if (filters.hasTrekDate()) {
-            query = query.whereLessThanOrEqualTo("trekStartDate", filters.getTrekTime());
+        long trekTime = filters.getTrekTime();
+        if (filters.hasTrekDate() && trekTime > 0) {
+
+            if (!filters.getTrekTimePeriodDefault().equals(this.getResources().getString(R.string.time_tomorrow))){
+                query = query.whereLessThanOrEqualTo("trekStartDate", trekTime);
+            }else{
+                query = query.whereEqualTo("trekStartDate", trekTime);
+            }
             query = query.orderBy("trekStartDate", Query.Direction.ASCENDING);
         }
 

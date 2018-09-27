@@ -30,6 +30,7 @@ public class Filters {
     private String region = null;
     private long trekTime;
     private String trekTimePeriod;
+    private String trekTimePeriodDefault;
     private String sortBy = null;
     private Query.Direction sortDirection = null;
 
@@ -89,6 +90,14 @@ public class Filters {
 
     public void setTrekTimePeriod(String trekTimePeriod) {
         this.trekTimePeriod = trekTimePeriod;
+    }
+
+    public String getTrekTimePeriodDefault() {
+        return trekTimePeriodDefault;
+    }
+
+    public void setTrekTimePeriodDefault(String trekTimePeriodDefault) {
+        this.trekTimePeriodDefault = trekTimePeriodDefault;
     }
 
     public String getSortBy() {

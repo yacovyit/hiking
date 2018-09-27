@@ -27,6 +27,8 @@ import com.findtreks.hiking.model.Trek;
 
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.Random;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -181,5 +183,19 @@ public class TrekUtil {
         datePickerDialog.getDatePicker().init(startYear, startMonth, startDay, null);
         datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
         return datePickerDialog;
+    }
+    public static Date getStartOfDate(Date date){
+
+        Calendar cal = new GregorianCalendar();
+        cal.setTime(date);
+        setStartOfDateCalender(cal);
+        date = cal.getTime();
+        return date;
+    }
+    public static void setStartOfDateCalender(Calendar cal){
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
     }
 }
