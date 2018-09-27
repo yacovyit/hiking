@@ -31,6 +31,7 @@ public class Rating {
     private String userName;
     private double rating;
     private String text;
+    private String availability;
     private @ServerTimestamp Date timestamp;
 
     public Rating() {}
@@ -84,5 +85,13 @@ public class Rating {
 
     public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public String getAvailability() {
+        return availability;
+    }
+
+    public void setAvailability(String availability) {
+        this.availability = availability;
     }
 }

@@ -25,6 +25,9 @@ import com.findtreks.hiking.R;
 import com.findtreks.hiking.model.Rating;
 import com.google.firebase.firestore.Query;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
@@ -54,6 +57,9 @@ public class RatingAdapter extends FirestoreAdapter<RatingAdapter.ViewHolder> {
         @BindView(R.id.rating_item_name)
         TextView nameView;
 
+        @BindView(R.id.rating_item_date)
+        TextView dateView;
+
         @BindView(R.id.rating_item_rating)
         MaterialRatingBar ratingBar;
 
@@ -69,6 +75,8 @@ public class RatingAdapter extends FirestoreAdapter<RatingAdapter.ViewHolder> {
             nameView.setText(rating.getUserName());
             ratingBar.setRating((float) rating.getRating());
             textView.setText(rating.getText());
+            dateView.setText(new SimpleDateFormat("EEE, dd/MM/yyyy")
+                    .format(new Date(rating.getTimestamp().getTime())));
         }
     }
 
