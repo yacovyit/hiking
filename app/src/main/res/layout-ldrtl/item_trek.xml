@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="?attr/selectableItemBackground"
     android:orientation="vertical"
     android:padding="8dp">
@@ -16,9 +17,9 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="8dp"
 
-        android:background="#757575"
+
         android:scaleType="centerCrop"
-        android:src="@drawable/food_1"
+        app:srcCompat="@drawable/ic_directions_walk_black_24dp"
         android:layout_alignParentRight="true" />
 
     <TextView

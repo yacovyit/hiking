@@ -7,7 +7,6 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="16dp">
-
     <TextView
         style="@style/AppTheme.Title"
         android:layout_width="match_parent"
@@ -15,6 +14,19 @@
         android:layout_marginBottom="8dp"
         android:text="@string/create_trek"
         tools:hint="@string/hint_trek_details" />
+    <ImageView
+        android:id="@+id/image_view_trek"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_margin="4dp"
+
+
+        android:alpha="1.0"
+        android:tint="@android:color/darker_gray"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/ic_add_a_photo_black_24dp"
+        />
+
 
     <!-- Trek Type -->
     <RelativeLayout

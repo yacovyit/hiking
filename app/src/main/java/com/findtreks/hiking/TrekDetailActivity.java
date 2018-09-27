@@ -16,6 +16,7 @@
  package com.findtreks.hiking;
 
 import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -45,6 +46,9 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.Transaction;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -94,6 +98,7 @@ public class TrekDetailActivity extends AppCompatActivity
     private ListenerRegistration mTrekRegistration;
 
     private RatingAdapter mRatingAdapter;
+    private StorageReference storageReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +106,7 @@ public class TrekDetailActivity extends AppCompatActivity
         setContentView(R.layout.activity_trek_detail);
         ButterKnife.bind(this);
 
+        storageReference = FirebaseStorage.getInstance().getReference();
         // Get restaurant ID from extras
         String trekId = getIntent().getExtras().getString(KEY_TREK_ID);
         if (trekId == null) {
@@ -223,10 +229,23 @@ public class TrekDetailActivity extends AppCompatActivity
         mCategoryView.setText(category);
         mTrekDateView.setText(TrekUtil.getPriceString(trek));
 
-        // Background image
+        storageReference.child("images/" + trek.getPhoto())
+                .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                // Got the download URL for 'users/me/profile.png'
+                Picasso.get().load(uri).into(mImageView);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+            }
+        });
+       /* // Background image
         Glide.with(mImageView.getContext())
                 .load(trek.getPhoto())
-                .into(mImageView);
+                .into(mImageView);*/
     }
 
     @OnClick(R.id.restaurant_button_back)

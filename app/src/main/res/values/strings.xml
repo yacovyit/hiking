@@ -120,5 +120,9 @@
     </string-array>
     <string name="title_activity_create_trek">CreateTrekActivity</string>
     <string name="trek_date">Trek Date</string>
+    <string name="select_image">Select Image</string>
+    <string name="uploaded_success">Uploaded</string>
+    <string name="uploaded_failed">Uploaded Failed</string>
+    <string name="uploading">Uploading...</string>
 
 </resources>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/filters_form"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -13,6 +14,17 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:text="@string/create_trek" />
+    <ImageView
+        android:id="@+id/image_view_trek"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:alpha="1.0"
+        android:background="@drawable/image_border"
+        android:tint="@android:color/darker_gray"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/ic_add_a_photo_black_24dp"
+        />
+
 
     <!-- Food Type -->
     <RelativeLayout

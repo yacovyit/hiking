@@ -91,5 +91,9 @@
 
     </string-array>
     <string name="trek_date">תאריך הטיול</string>
+    <string name="select_image">בחר תמונה</string>
+    <string name="uploaded_success">התמונה נשמרה</string>
+    <string name="uploaded_failed">העלאת התמונה נכשלה</string>
+    <string name="uploading">מעלה ...</string>
 
 </resources>

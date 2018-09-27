@@ -16,6 +16,8 @@
  package com.findtreks.hiking.adapter;
 
 import android.content.res.Resources;
+import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,12 +25,16 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.findtreks.hiking.R;
 import com.findtreks.hiking.TrekApplication;
 import com.findtreks.hiking.model.Trek;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -47,15 +53,17 @@ public class TrekAdapter extends FirestoreAdapter<TrekAdapter.ViewHolder> {
 
     private OnTrekSelectedListener mListener;
 
+
     public TrekAdapter(Query query, OnTrekSelectedListener listener) {
         super(query);
         mListener = listener;
+
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        return new ViewHolder(inflater.inflate(R.layout.item_restaurant, parent, false));
+        return new ViewHolder(inflater.inflate(R.layout.item_trek, parent, false));
     }
 
     @Override
@@ -82,10 +90,11 @@ public class TrekAdapter extends FirestoreAdapter<TrekAdapter.ViewHolder> {
 
         @BindView(R.id.restaurant_item_region)
         TextView regionView;
-
+        private StorageReference storageReference;
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            storageReference = FirebaseStorage.getInstance().getReference();
         }
 
         public void bind(final DocumentSnapshot snapshot,
@@ -99,10 +108,25 @@ public class TrekAdapter extends FirestoreAdapter<TrekAdapter.ViewHolder> {
             String region = trekApplication.getRegionsTranslationReversedMap().get(trek.getCity());
             String category = trekApplication.getCategoriesTranslationReversedMap().get(trek.getCategory());
 
+            storageReference.child("images/" + trek.getPhoto())
+                    .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    // Got the download URL for 'users/me/profile.png'
+                    Picasso.get().load(uri).into(imageView);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Handle any errors
+                }
+            });
             // Load image
-            Glide.with(imageView.getContext())
-                    .load(trek.getPhoto())
-                    .into(imageView);
+           /* Glide.with(imageView.getContext())
+
+                    .using(new FirebaseImageLoader())
+                    .load(storageReference.child("images/" + trek.getPhoto()))
+                    .into(imageView);*/
 
             nameView.setText(trek.getName());
             ratingBar.setRating((float) trek.getAvgRating());
