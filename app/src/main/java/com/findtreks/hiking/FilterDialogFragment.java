@@ -122,7 +122,10 @@ public class FilterDialogFragment extends DialogFragment {
             return selected;
         }
     }
-
+    private String getSelectedTrekDatePeriod(){
+        String selected = (String) mPriceSpinner.getSelectedItem();
+        return selected;
+    }
     private long getSelectedTrekDate() {
         String selected = (String) mPriceSpinner.getSelectedItem();
         Calendar c = Calendar.getInstance();
@@ -187,9 +190,11 @@ public class FilterDialogFragment extends DialogFragment {
             TrekApplication trekApplication = (TrekApplication)(this.getContext().getApplicationContext());
             String category = trekApplication.getCategoriesTranslationMap().get(getSelectedCategory());
             String region = trekApplication.getRegionsTranslationMap().get(getSelectedRegion());
+            String trekTimePeriod = trekApplication.getTrekDateTranslationMap().get(getSelectedTrekDatePeriod());
 
             filters.setCategory(category);
             filters.setRegion(region);
+            filters.setTrekTimePeriod(trekTimePeriod);
             filters.setTrekTime(getSelectedTrekDate());
             filters.setSortBy(getSelectedSortBy());
             filters.setSortDirection(getSortDirection());

@@ -29,6 +29,7 @@ public class Filters {
     private String category = null;
     private String region = null;
     private long trekTime;
+    private String trekTimePeriod;
     private String sortBy = null;
     private Query.Direction sortDirection = null;
 
@@ -82,6 +83,14 @@ public class Filters {
         this.region = region;
     }
 
+    public String getTrekTimePeriod() {
+        return trekTimePeriod;
+    }
+
+    public void setTrekTimePeriod(String trekTimePeriod) {
+        this.trekTimePeriod = trekTimePeriod;
+    }
+
     public String getSortBy() {
         return sortBy;
     }
@@ -102,6 +111,8 @@ public class Filters {
     public String getSearchDescription(Context context) {
         StringBuilder desc = new StringBuilder();
 
+        TrekApplication trekApplication = (TrekApplication)(context.getApplicationContext());
+
         if (category == null && region == null) {
             desc.append("<b>");
             desc.append(context.getString(R.string.all_treks));
@@ -109,8 +120,9 @@ public class Filters {
         }
 
         if (category != null) {
+            String categoryDisplay = trekApplication.getCategoriesTranslationReversedMap().get(category);
             desc.append("<b>");
-            desc.append(category);
+            desc.append(categoryDisplay);
             desc.append("</b>");
         }
 
@@ -119,17 +131,19 @@ public class Filters {
         }
 
         if (region != null) {
+            String regionDisplay = trekApplication.getRegionsTranslationReversedMap().get(region);
             desc.append("<b>");
-            desc.append(region);
+            desc.append(regionDisplay);
             desc.append("</b>");
         }
 
-        /*if (price > 0) {
+        if (trekTimePeriod != null) {
+            String trekTimePeriodDisplay = trekApplication.getTrekDateTranslationReversedMap().get(trekTimePeriod);
             desc.append(" * ");
             desc.append("<b>");
-            desc.append(TrekUtil.getPriceString(price));
+            desc.append(trekTimePeriodDisplay);
             desc.append("</b>");
-        }*/
+        }
 
         return desc.toString();
     }
