@@ -78,12 +78,30 @@
             tools:text="(10)" />
 
         <TextView
-            android:id="@+id/trek_category"
+            android:id="@+id/trek_date"
             style="@style/AppTheme.Subheader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/trek_image"
             android:layout_alignLeft="@+id/trek_name"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:textColor="@android:color/white"
+            tools:text="Italian" />
+        <TextView
+            android:id="@+id/trek_date_divider"
+            style="@style/AppTheme.TextDivider"
+            android:layout_alignTop="@+id/trek_category"
+            android:layout_toRightOf="@+id/trek_date"
+            android:text="@string/divider_bullet"
+            android:textColor="@android:color/white" />
+        <TextView
+            android:id="@+id/trek_category"
+            style="@style/AppTheme.Subheader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/trek_image"
+            android:layout_toRightOf="@+id/trek_date_divider"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
             android:textColor="@android:color/white"
@@ -108,18 +126,7 @@
             android:textColor="@android:color/white"
             tools:text="San Francisco" />
 
-        <TextView
-            android:id="@+id/trek_price"
-            style="@style/AppTheme.Body1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/trek_name"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_toRightOf="@+id/trek_name"
-            android:textColor="@android:color/white"
-            android:textStyle="bold"
-            tools:text="$$$" />
+      
 
     </RelativeLayout>
 

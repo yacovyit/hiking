@@ -49,6 +49,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -75,14 +78,14 @@ public class TrekDetailActivity extends AppCompatActivity
     @BindView(R.id.trek_num_ratings)
     TextView mNumRatingsView;
 
+    @BindView(R.id.trek_date)
+    TextView mDateView;
+
     @BindView(R.id.trek_city)
     TextView mCityView;
 
     @BindView(R.id.trek_category)
     TextView mCategoryView;
-
-    @BindView(R.id.trek_price)
-    TextView mTrekDateView;
 
     @BindView(R.id.view_empty_ratings)
     ViewGroup mEmptyView;
@@ -225,8 +228,10 @@ public class TrekDetailActivity extends AppCompatActivity
         mRatingIndicator.setRating((float) trek.getAvgRating());
         mNumRatingsView.setText(getString(R.string.fmt_num_ratings, trek.getNumRatings()));
         mCityView.setText(region);
+        mDateView.setText(new SimpleDateFormat("EEE, dd/MM/yyyy")
+                .format(new Date(trek.getTrekStartDate())));
         mCategoryView.setText(category);
-        mTrekDateView.setText(TrekUtil.getPriceString(trek));
+
 
         storageReference.child("images/" + trek.getPhoto())
                 .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
