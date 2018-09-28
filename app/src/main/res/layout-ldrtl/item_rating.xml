@@ -78,6 +78,7 @@
         android:gravity="center"
         android:textOff="@string/not_coming" />
     <Button
+        android:visibility="invisible"
         android:id="@+id/imageButtonPhone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

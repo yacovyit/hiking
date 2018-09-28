@@ -39,11 +39,14 @@
         <TextView
             android:id="@+id/trek_name"
             style="@style/AppTheme.Title"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@+id/trek_rating"
             android:layout_marginLeft="8dp"
+            android:lines="3"
+            android:gravity="center"
             android:layout_marginTop="8dp"
+
             android:textColor="@android:color/white"
             android:textStyle="bold"
             tools:text="Some Restaurant" />
