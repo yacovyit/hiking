@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements
 
     private static final int RC_SIGN_IN = 9001;
 
-    private static final int LIMIT = 50;
+    private static final int LIMIT = 500;
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;

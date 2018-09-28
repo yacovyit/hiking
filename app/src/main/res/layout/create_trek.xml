@@ -95,6 +95,31 @@
         android:layout_height="wrap_content">
 
         <ImageView
+            android:id="@+id/icon_trek_whatsapp_groupo"
+            style="@style/AppTheme.FilterIcon"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="8dp"
+            android:tint="@color/greySecondary"
+            app:srcCompat="@drawable/ic_chat_bubble_outline_white_24dp" />
+
+        <EditText
+            android:id="@+id/edit_trek_whatsapp_group"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/icon_trek_whatsapp_groupo"
+            android:hint="@string/whatsapp_group"
+            android:minLines="1"
+
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
             android:id="@+id/icon_trek_details"
             style="@style/AppTheme.FilterIcon"
             android:layout_alignParentLeft="true"
@@ -108,8 +133,7 @@
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/icon_trek_details"
             android:hint="@string/hint_trek_details"
-            android:minLines="2"
-            android:maxLines="4"
+            android:maxLines="2"
             android:maxLength="250"
             android:layout_height="wrap_content"
             android:layout_width="match_parent" />

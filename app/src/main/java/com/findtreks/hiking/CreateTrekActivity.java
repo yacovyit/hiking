@@ -57,6 +57,9 @@ public class CreateTrekActivity extends AppCompatActivity implements DatePickerD
     @BindView(R.id.edit_trek_details)
     EditText mTrekDetails;
 
+    @BindView(R.id.edit_trek_whatsapp_group)
+    EditText mTrekwhatsappGroup;
+
     @BindView(R.id.button_trek_date)
     Button mShowDatePickerDialogButton;
 
@@ -114,6 +117,9 @@ public class CreateTrekActivity extends AppCompatActivity implements DatePickerD
         }
     }
 
+    public String getWhatsappGroup(){
+        return mTrekwhatsappGroup.getText().toString();
+    }
     private Date getSelectedTrekDate() {
         Date trekDate = TrekUtil.getDateFromDatePicker(this.mDatePicker);
         return trekDate;
@@ -133,6 +139,7 @@ public class CreateTrekActivity extends AppCompatActivity implements DatePickerD
             trek.setCity(region);
             trek.setTrekStartDate(TrekUtil.getStartOfDate(new Date(getSelectedTrekDate().getTime())).getTime());
             trek.setName(getTreDetails());
+            trek.setWhatsappGroup(getWhatsappGroup());
             trek.setPhoto(uuidTrekImage.toString());
 
         return trek;

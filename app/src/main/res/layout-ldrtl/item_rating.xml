@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingTop="16dp"
     android:paddingLeft="16dp"
     android:paddingRight="16dp">
@@ -76,4 +77,13 @@
         android:enabled="false"
         android:gravity="center"
         android:textOff="@string/not_coming" />
+    <Button
+        android:id="@+id/imageButtonPhone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rating_item_text"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="-4dp"
+        android:drawableLeft="@android:drawable/sym_action_call"
+         />
 </RelativeLayout>

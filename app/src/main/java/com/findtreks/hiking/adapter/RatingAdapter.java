@@ -15,15 +15,21 @@
  */
  package com.findtreks.hiking.adapter;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.findtreks.hiking.R;
 import com.findtreks.hiking.model.Rating;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.Query;
 
 import java.text.SimpleDateFormat;
@@ -45,7 +51,7 @@ public class RatingAdapter extends FirestoreAdapter<RatingAdapter.ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_rating, parent, false));
+                .inflate(R.layout.item_rating, parent, false), parent.getContext());
     }
 
     @Override
@@ -54,7 +60,7 @@ public class RatingAdapter extends FirestoreAdapter<RatingAdapter.ViewHolder> {
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-
+        private Context ctx;
         @BindView(R.id.rating_item_name)
         TextView nameView;
 
@@ -70,8 +76,12 @@ public class RatingAdapter extends FirestoreAdapter<RatingAdapter.ViewHolder> {
         @BindView(R.id.toggleButtonIsComing)
         ToggleButton isComingToggleButton;
 
-        public ViewHolder(View itemView) {
+        @BindView(R.id.imageButtonPhone)
+        Button buttonPhone;
+
+        public ViewHolder(View itemView, Context ctx) {
             super(itemView);
+            this.ctx = ctx;
             ButterKnife.bind(this, itemView);
         }
 
@@ -82,6 +92,30 @@ public class RatingAdapter extends FirestoreAdapter<RatingAdapter.ViewHolder> {
             dateView.setText(new SimpleDateFormat("EEE, dd/MM/yyyy HH:mm")
                     .format(new Date(rating.getTimestamp().getTime())));
             isComingToggleButton.setChecked(rating.getComing());
+            final String number = FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
+            buttonPhone.setText(number);
+            buttonPhone.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    openWhatsApp(number);
+                }
+                private void openWhatsApp(String number) {
+                    //String smsNumber = "7****"; //without '+'
+                    number = number.replace("+","");
+                    try {
+                        Intent sendIntent = new Intent("android.intent.action.MAIN");
+                        //sendIntent.setComponent(new ComponentName("com.whatsapp", "com.whatsapp.Conversation"));
+                        sendIntent.setAction(Intent.ACTION_SEND);
+                        sendIntent.setType("text/plain");
+                        sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
+                        sendIntent.putExtra("jid", number + "@s.whatsapp.net"); //phone number without "+" prefix
+                        sendIntent.setPackage("com.whatsapp");
+                        ctx.startActivity(sendIntent);
+                    } catch(Exception e) {
+                        //Toast.makeText(this, "Error/n" + e.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
 
         }
     }

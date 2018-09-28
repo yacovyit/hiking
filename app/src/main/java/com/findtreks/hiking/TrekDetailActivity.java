@@ -16,6 +16,7 @@
  package com.findtreks.hiking;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -27,6 +28,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -99,6 +101,8 @@ public class TrekDetailActivity extends AppCompatActivity
     @BindView(R.id.recycler_ratings)
     RecyclerView mRatingsRecycler;
 
+    @BindView(R.id.fab_show_whatsapp)
+    View mFabWhatsappGroup;
     //private RatingDialogFragment mRatingDialog;
 
     private FirebaseFirestore mFirestore;
@@ -257,7 +261,13 @@ public class TrekDetailActivity extends AppCompatActivity
         mCityView.setText(region);
         mDateView.setText(new SimpleDateFormat("EEE, dd/MM/yyyy")
                 .format(new Date(trek.getTrekStartDate())));
-        mCategoryView.setText(category);
+        if (trek.getWhatsappGroup()!= null){
+            mFabWhatsappGroup.setEnabled(true);
+            mFabWhatsappGroup.setTag(trek.getWhatsappGroup());
+        }else{
+            mFabWhatsappGroup.setEnabled(false);
+            mFabWhatsappGroup.setTag(null);
+        }
 
 
         storageReference.child("images/" + trek.getPhoto())
@@ -284,6 +294,19 @@ public class TrekDetailActivity extends AppCompatActivity
         onBackPressed();
     }
 
+    @OnClick(R.id.fab_show_whatsapp)
+    public void onWhatsappChatClicked(View view) {
+        String tagUrl = view.getTag().toString();
+        if (tagUrl != null && tagUrl.startsWith("https://chat.whatsapp.com/")) {
+            tagUrl.replace("https://chat.whatsapp.com/","");
+            Intent intentWhatsapp = new Intent(Intent.ACTION_VIEW);
+
+            String url = String.format("%s%s", "https://chat.whatsapp.com/", tagUrl);
+            intentWhatsapp.setData(Uri.parse(url));
+            intentWhatsapp.setPackage("com.whatsapp");
+            startActivity(intentWhatsapp);
+        }
+    }
     @OnClick(R.id.fab_show_rating_dialog)
     public void onAddRatingClicked(View view) {
         final DocumentReference ratingRef = mTreksRef.collection("ratings")

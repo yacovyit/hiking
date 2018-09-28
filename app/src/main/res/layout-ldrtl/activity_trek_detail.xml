@@ -26,10 +26,24 @@
 
             android:layout_height="200dp"
 
+            android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
+            android:layout_marginTop="0dp"
             android:background="@drawable/gradient_up" />
 
         <!-- Back button -->
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_show_whatsapp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/trek_name"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginStart="17dp"
+            android:layout_marginRight="17dp"
+            android:layout_marginBottom="-76dp"
+            app:srcCompat="@drawable/ic_chat_bubble_outline_white_24dp" />
+
         <ImageView
             android:id="@+id/trek_button_back"
             android:layout_width="wrap_content"
@@ -125,8 +139,13 @@
             android:layout_toRightOf="@+id/trek_city_divider"
             android:textColor="@android:color/white"
             tools:text="San Francisco" />
+        <TextView
+            android:id="@+id/txtLink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
 
-      
+            android:autoLink="all" />
+
 
     </RelativeLayout>
 

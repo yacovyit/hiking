@@ -39,11 +39,12 @@ public class Trek {
     private int numRatings;
     private double avgRating;
     private long trekStartDate;
+    private String whatsappGroup;
 
     public Trek() {}
 
     public Trek(String name, String city, String category, String photo,
-                int price, int numRatings, double avgRating,long trekStartDate) {
+                int price, int numRatings, double avgRating,long trekStartDate,String whatsappGroup) {
         this.name = name;
         this.city = city;
         this.category = category;
@@ -51,6 +52,7 @@ public class Trek {
         this.numRatings = numRatings;
         this.avgRating = avgRating;
         this.trekStartDate = trekStartDate;
+        this.whatsappGroup = whatsappGroup;
     }
 
     public String getName() {
@@ -115,5 +117,13 @@ public class Trek {
 
     public void setTrekStartDate(long trekStartDate) {
         this.trekStartDate = trekStartDate;
+    }
+
+    public String getWhatsappGroup() {
+        return whatsappGroup;
+    }
+
+    public void setWhatsappGroup(String whatsappGroup) {
+        this.whatsappGroup = whatsappGroup;
     }
 }
