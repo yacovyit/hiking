@@ -82,12 +82,6 @@ public class TrekAdapter extends FirestoreAdapter<TrekAdapter.ViewHolder> {
         @BindView(R.id.trek_item_name)
         TextView nameView;
 
-        @BindView(R.id.trek_item_rating)
-        MaterialRatingBar ratingBar;
-
-        @BindView(R.id.trek_item_num_ratings)
-        TextView numRatingsView;
-
         @BindView(R.id.trek_item_date)
         TextView dateView;
 
@@ -135,13 +129,10 @@ public class TrekAdapter extends FirestoreAdapter<TrekAdapter.ViewHolder> {
                     .into(imageView);*/
 
             nameView.setText(trek.getName());
-            ratingBar.setRating((float) trek.getAvgRating());
             regionView.setText(region);
             categoryView.setText(category);
             dateView.setText(new SimpleDateFormat("EEE, dd/MM/yyyy")
                     .format(new Date(trek.getTrekStartDate())));
-            numRatingsView.setText(resources.getString(R.string.fmt_num_ratings,
-                    trek.getNumRatings()));
 
 
             // Click listener

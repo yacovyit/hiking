@@ -17,8 +17,6 @@
 
 import com.google.firebase.firestore.IgnoreExtraProperties;
 
-import java.util.Date;
-
 /**
  * Trek POJO.
  */
@@ -28,7 +26,7 @@ public class Trek {
     public static final String FIELD_CITY = "city";
     public static final String FIELD_CATEGORY = "category";
     public static final String FIELD_TREK_DATE = "trekStartDate";
-    public static final String FIELD_POPULARITY = "numRatings";
+    public static final String FIELD_POPULARITY = "numRegistered";
     public static final String FIELD_AVG_RATING = "avgRating";
 
     private String name;
@@ -36,21 +34,19 @@ public class Trek {
     private String category;
     private String photo;
     private int price;
-    private int numRatings;
-    private double avgRating;
+    private int numRegistered;
     private long trekStartDate;
     private String whatsappGroup;
 
     public Trek() {}
 
     public Trek(String name, String city, String category, String photo,
-                int price, int numRatings, double avgRating,long trekStartDate,String whatsappGroup) {
+                int price, int numRatings,long trekStartDate,String whatsappGroup) {
         this.name = name;
         this.city = city;
         this.category = category;
         this.price = price;
-        this.numRatings = numRatings;
-        this.avgRating = avgRating;
+        this.numRegistered = numRatings;
         this.trekStartDate = trekStartDate;
         this.whatsappGroup = whatsappGroup;
     }
@@ -95,20 +91,12 @@ public class Trek {
         this.price = price;
     }
 
-    public int getNumRatings() {
-        return numRatings;
+    public int getNumRegistered() {
+        return numRegistered;
     }
 
-    public void setNumRatings(int numRatings) {
-        this.numRatings = numRatings;
-    }
-
-    public double getAvgRating() {
-        return avgRating;
-    }
-
-    public void setAvgRating(double avgRating) {
-        this.avgRating = avgRating;
+    public void setNumRegistered(int numRegistered) {
+        this.numRegistered = numRegistered;
     }
 
     public long getTrekStartDate() {

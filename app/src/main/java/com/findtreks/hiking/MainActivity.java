@@ -175,8 +175,6 @@ public class MainActivity extends AppCompatActivity implements
     private void onAddTrekClicked() {
 
         Intent intent = new Intent(this, CreateTrekActivity.class);
-        //intent.putExtra(TrekDetailActivity.KEY_TREK_ID, trek.getId());
-
         startActivity(intent);
     }
 
@@ -198,20 +196,15 @@ public class MainActivity extends AppCompatActivity implements
         // Trek date (equality filter)
         long[] trekTime = filters.getTrekTime();
         if (filters.hasTrekDate() && trekTime != null) {
-           boolean dateIsFilterd = false;
             if (trekTime[0] > 0){
                 //grater then start date
                 query = query.whereGreaterThanOrEqualTo("trekStartDate", trekTime[0]);
-                dateIsFilterd = true;
             }
             if (trekTime[1] > 0){
                 //less then end date
                 query = query.whereLessThanOrEqualTo("trekStartDate", trekTime[1]);
-                dateIsFilterd = true;
             }
-            if (dateIsFilterd){
-                query = query.orderBy("trekStartDate", Query.Direction.ASCENDING);
-            }
+
 
 
         }

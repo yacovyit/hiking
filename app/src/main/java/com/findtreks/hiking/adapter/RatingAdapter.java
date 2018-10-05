@@ -15,7 +15,6 @@
  */
  package com.findtreks.hiking.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -23,12 +22,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.findtreks.hiking.R;
-import com.findtreks.hiking.model.Rating;
+import com.findtreks.hiking.model.Register;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.Query;
 
@@ -37,7 +35,6 @@ import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
 /**
  * RecyclerView adapter for a bunch of Ratings.
@@ -51,12 +48,12 @@ public class RatingAdapter extends FirestoreAdapter<RatingAdapter.ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_rating, parent, false), parent.getContext());
+                .inflate(R.layout.item_register, parent, false), parent.getContext());
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.bind(getSnapshot(position).toObject(Rating.class));
+        holder.bind(getSnapshot(position).toObject(Register.class));
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
@@ -66,9 +63,6 @@ public class RatingAdapter extends FirestoreAdapter<RatingAdapter.ViewHolder> {
 
         @BindView(R.id.rating_item_date)
         TextView dateView;
-
-        @BindView(R.id.rating_item_rating)
-        MaterialRatingBar ratingBar;
 
         @BindView(R.id.rating_item_text)
         TextView textView;
@@ -85,13 +79,12 @@ public class RatingAdapter extends FirestoreAdapter<RatingAdapter.ViewHolder> {
             ButterKnife.bind(this, itemView);
         }
 
-        public void bind(Rating rating) {
-            nameView.setText(rating.getUserName());
-            ratingBar.setRating((float) rating.getRating());
-            textView.setText(rating.getText());
+        public void bind(Register register) {
+            nameView.setText(register.getUserName());
+            textView.setText(register.getText());
             dateView.setText(new SimpleDateFormat("EEE, dd/MM/yyyy HH:mm")
-                    .format(new Date(rating.getTimestamp().getTime())));
-            isComingToggleButton.setChecked(rating.getComing());
+                    .format(new Date(register.getTimestamp().getTime())));
+            isComingToggleButton.setChecked(register.getComing());
             final String number = FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
             buttonPhone.setText(number);
             buttonPhone.setOnClickListener(new View.OnClickListener() {

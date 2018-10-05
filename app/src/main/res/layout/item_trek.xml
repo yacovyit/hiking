@@ -24,39 +24,17 @@
         android:layout_marginBottom="4dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="-2dp"
-        android:layout_toLeftOf="@+id/restaurant_item_trek_date"
         android:layout_toRightOf="@+id/trek_item_image"
         android:ellipsize="end"
         android:maxLines="1"
         tools:text="Foo's Bar" />
 
-    <me.zhanghai.android.materialratingbar.MaterialRatingBar
-        android:id="@+id/trek_item_rating"
-        style="@style/Widget.MaterialRatingBar.RatingBar.Indicator.Small"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/trek_item_name"
-        android:layout_below="@+id/trek_item_name"
-        android:layout_marginBottom="4dp" />
-
-    <TextView
-        android:id="@+id/trek_item_num_ratings"
-        style="@style/AppTheme.Caption"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/trek_item_rating"
-        android:layout_alignTop="@+id/trek_item_rating"
-        android:layout_marginLeft="4dp"
-        android:layout_toRightOf="@+id/trek_item_rating"
-        android:gravity="center_vertical"
-        android:textColor="@color/greyDisabled"
-        tools:text="(10)" />
     <TextView
         android:id="@+id/trek_item_date"
         style="@style/AppTheme.Body1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/trek_item_rating"
+        android:layout_below="@+id/trek_item_name"
         android:layout_alignLeft="@+id/trek_item_name"
         android:textColor="@color/greySecondary"
         tools:text="Italian" />
@@ -72,7 +50,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/trek_item_date_divider"
-        android:layout_below="@+id/trek_item_rating"
+        android:layout_below="@+id/trek_item_name"
         android:textColor="@color/greySecondary"
         tools:text="Italian" />
 
@@ -92,14 +70,5 @@
         android:layout_toRightOf="@+id/trek_item_city_divider"
         android:textColor="@color/greySecondary"
         tools:text="San Francisco" />
-
-    <TextView
-        android:id="@+id/restaurant_item_price"
-        style="@style/AppTheme.Caption"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:textColor="@color/greySecondary"
-        tools:text="$$$" />
 
 </RelativeLayout>

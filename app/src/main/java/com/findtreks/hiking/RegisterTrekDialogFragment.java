@@ -25,44 +25,40 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ToggleButton;
 
+import com.findtreks.hiking.model.Register;
 import com.google.firebase.auth.FirebaseAuth;
-import com.findtreks.hiking.model.Rating;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
 /**
  * Dialog Fragment containing rating form.
  */
-public class RatingDialogFragment extends DialogFragment {
+public class RegisterTrekDialogFragment extends DialogFragment {
 
-    public static final String TAG = "RatingDialog";
+    public static final String TAG = "RegisterTrekDialog";
 
-    @BindView(R.id.restaurant_form_rating)
-    MaterialRatingBar mRatingBar;
 
     @BindView(R.id.restaurant_form_text)
     EditText mRatingText;
 
     @BindView(R.id.toggleButtonIsComing)
     ToggleButton mToggleButtonIsComing;
-    interface RatingListener {
-        void onRating(Rating rating, String ratingId);
+    interface RegisterListener {
+        void onRegister(Register register, String ratingId);
     }
 
-    private RatingListener mRatingListener;
+    private RegisterListener mRatingListener;
     private String text ;
-    private Double rating;
     private Boolean isComing;
-    private String ratingId;
+    private String registerId;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         text = getArguments().getString("text");
-        rating = getArguments().getDouble("rating");
         isComing = getArguments().getBoolean("coming",false);
-        ratingId = getArguments().getString("ratingId");
+        registerId = getArguments().getString("registerId");
 
     }
 
@@ -74,11 +70,7 @@ public class RatingDialogFragment extends DialogFragment {
         View v = inflater.inflate(R.layout.dialog_rating, container, false);
         ButterKnife.bind(this, v);
         mRatingText.setText(text);
-        if (rating != null){
-            mRatingBar.setRating((rating.floatValue()));
-        }else{
-            mRatingBar.setRating(0);
-        }
+
         mToggleButtonIsComing.setChecked(isComing);
         return v;
     }
@@ -87,8 +79,8 @@ public class RatingDialogFragment extends DialogFragment {
     public void onAttach(Context context) {
         super.onAttach(context);
 
-        if (context instanceof RatingListener) {
-            mRatingListener = (RatingListener) context;
+        if (context instanceof RegisterListener) {
+            mRatingListener = (RegisterListener) context;
         }
     }
 
@@ -103,14 +95,13 @@ public class RatingDialogFragment extends DialogFragment {
 
     @OnClick(R.id.restaurant_form_button)
     public void onSubmitClicked(View view) {
-        Rating rating = new Rating(
+        Register register = new Register(
                 FirebaseAuth.getInstance().getCurrentUser(),
-                mRatingBar.getRating(),
                 mRatingText.getText().toString(),
                 mToggleButtonIsComing.isChecked());
 
         if (mRatingListener != null) {
-            mRatingListener.onRating(rating, ratingId);
+            mRatingListener.onRegister(register, registerId);
         }
 
         dismiss();

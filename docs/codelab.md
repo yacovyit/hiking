@@ -355,7 +355,7 @@ com.google.firebase.firestore.FirebaseFirestoreException: FAILED_PRECONDITION: T
 ```
 
 
-The query could not be completed on the backend because it requires an index. Most Firestore queries involving multiple fields (in this case price and rating) require a custom index. Clicking the link in the error message will open the Firebase console and automatically prompt you to create the correct index:
+The query could not be completed on the backend because it requires an index. Most Firestore queries involving multiple fields (in this case price and register) require a custom index. Clicking the link in the error message will open the Firebase console and automatically prompt you to create the correct index:
 
 ![Firestore-Android8](img/Firestore-Android8.png)
 
@@ -380,7 +380,7 @@ In this section we'll add ratings to the app so users can review their favorite 
 
 ### Collections and subcollections
 
-So far we have stored all trek data in a top-level collection called "restaurants". When a user rates a trek we want to add a new `Rating` object to the restaurants. For this task we will use a subcollection. You can think of a subcollection as a collection that is attached to a document. So each trek document will have a ratings subcollection full of rating documents. Subcollections help organize data without bloating our documents or requiring complex queries.
+So far we have stored all trek data in a top-level collection called "restaurants". When a user rates a trek we want to add a new `Rating` object to the restaurants. For this task we will use a subcollection. You can think of a subcollection as a collection that is attached to a document. So each trek document will have a ratings subcollection full of register documents. Subcollections help organize data without bloating our documents or requiring complex queries.
 
 To access a subcollection, call `.collection()` on the parent document:
 
@@ -396,25 +396,25 @@ You can access and query a subcollection just like with a top-level collection, 
 
 ### Writing data in a transaction
 
-Adding a `Rating` to the proper subcollection only requires calling `.add()`, but we also need to update the `Restaurant` object's average rating and number of ratings to reflect the new data. If we use separate operations to make these two changes there are a number of race conditions that could result in stale or incorrect data.
+Adding a `Rating` to the proper subcollection only requires calling `.add()`, but we also need to update the `Restaurant` object's average register and number of ratings to reflect the new data. If we use separate operations to make these two changes there are a number of race conditions that could result in stale or incorrect data.
 
 To ensure that ratings are added properly, we will use a transaction to add ratings to a trek. This transaction will perform a few actions:
 
-*   Read the trek's current rating and calculate the new one
-*   Add the rating to the subcollection
-*   Update the trek's average rating and number of ratings
+*   Read the trek's current register and calculate the new one
+*   Add the register to the subcollection
+*   Update the trek's average register and number of ratings
 
 Open `RestaurantDetailActivity.java` and implement the `addRating` function:
 
 
 ```
     private Task<Void> addRating(final DocumentReference restaurantRef,
-                                 final Rating rating) {
-        // Create reference for new rating, for use inside the transaction
+                                 final Rating register) {
+        // Create reference for new register, for use inside the transaction
         final DocumentReference ratingRef = restaurantRef.collection("ratings")
                 .document();
 
-        // In a transaction, add the new rating and update the aggregate totals
+        // In a transaction, add the new register and update the aggregate totals
         return mFirestore.runTransaction(new Transaction.Function<Void>() {
             @Override
             public Void apply(Transaction transaction)
@@ -426,10 +426,10 @@ Open `RestaurantDetailActivity.java` and implement the `addRating` function:
                 // Compute new number of ratings
                 int newNumRatings = trek.getNumRatings() + 1;
 
-                // Compute new average rating
+                // Compute new average register
                 double oldRatingTotal = trek.getAvgRating() *
                         trek.getNumRatings();
-                double newAvgRating = (oldRatingTotal + rating.getRating()) /
+                double newAvgRating = (oldRatingTotal + register.getRating()) /
                         newNumRatings;
 
                 // Set new trek info
@@ -438,7 +438,7 @@ Open `RestaurantDetailActivity.java` and implement the `addRating` function:
 
                 // Commit to Firestore
                 transaction.set(restaurantRef, trek);
-                transaction.set(ratingRef, rating);
+                transaction.set(ratingRef, register);
 
                 return null;
             }

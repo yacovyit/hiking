@@ -28,18 +28,16 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.findtreks.hiking.model.Register;
 import com.findtreks.hiking.model.Trek;
-import com.google.android.gms.common.data.ObjectDataBuffer;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.findtreks.hiking.adapter.RatingAdapter;
-import com.findtreks.hiking.model.Rating;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -63,14 +61,13 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
 import static com.findtreks.hiking.Globals.COLLECTION_NAME;
 
 public class TrekDetailActivity extends AppCompatActivity
-        implements EventListener<DocumentSnapshot>, RatingDialogFragment.RatingListener {
+        implements EventListener<DocumentSnapshot>, RegisterTrekDialogFragment.RegisterListener {
 
-    private static final String TAG = "RestaurantDetail";
+    private static final String TAG = "TrekDetail";
 
     public static final String KEY_TREK_ID = "key_trek_id";
 
@@ -79,9 +76,6 @@ public class TrekDetailActivity extends AppCompatActivity
 
     @BindView(R.id.trek_name)
     TextView mNameView;
-
-    @BindView(R.id.trek_rating)
-    MaterialRatingBar mRatingIndicator;
 
     @BindView(R.id.trek_num_ratings)
     TextView mNumRatingsView;
@@ -103,7 +97,7 @@ public class TrekDetailActivity extends AppCompatActivity
 
     @BindView(R.id.fab_show_whatsapp)
     View mFabWhatsappGroup;
-    //private RatingDialogFragment mRatingDialog;
+    //private RegisterTrekDialogFragment mRatingDialog;
 
     private FirebaseFirestore mFirestore;
     private DocumentReference mTreksRef;
@@ -133,7 +127,7 @@ public class TrekDetailActivity extends AppCompatActivity
 
         // Get ratings
         Query ratingsQuery = mTreksRef
-                .collection("ratings")
+                .collection("registration")
 
                 .orderBy("timestamp", Query.Direction.DESCENDING)
                 .limit(50);
@@ -155,7 +149,7 @@ public class TrekDetailActivity extends AppCompatActivity
         mRatingsRecycler.setLayoutManager(new LinearLayoutManager(this));
         mRatingsRecycler.setAdapter(mRatingAdapter);
 
-        //mRatingDialog = new RatingDialogFragment();
+        //mRatingDialog = new RegisterTrekDialogFragment();
     }
 
     @Override
@@ -178,20 +172,20 @@ public class TrekDetailActivity extends AppCompatActivity
         }
     }
 
-    private Task<Void> addRating(final DocumentReference trekRef,
-                                 final Rating rating, final String ratingId) {
-        // Create reference for new rating, for use inside the transaction
+    private Task<Void> registerTrek(final DocumentReference trekRef,
+                                    final Register register, final String registerId) {
+        // Create reference for new register, for use inside the transaction
         DocumentReference ratingRef;
-        if (ratingId != null){
-            ratingRef = trekRef.collection("ratings")
-                    .document(ratingId);
+        if (registerId != null){
+            ratingRef = trekRef.collection("registration")
+                    .document(registerId);
         }else{
-            ratingRef = trekRef.collection("ratings")
+            ratingRef = trekRef.collection("registration")
                     .document();
         }
-        final DocumentReference ratingRefInsertUpdate = ratingRef;
+        final DocumentReference registerRefInsertUpdate = ratingRef;
 
-        // In a transaction, add the new rating and update the aggregate totals
+        // In a transaction, add the new register and update the aggregate totals
         return mFirestore.runTransaction(new Transaction.Function<Void>() {
             @Override
             public Void apply(Transaction transaction)
@@ -202,30 +196,23 @@ public class TrekDetailActivity extends AppCompatActivity
 
 
                 // Compute new number of ratings
-                int newNumRatings = trek.getNumRatings() + 1;
-
-                // Compute new average rating
-                double oldRatingTotal = trek.getAvgRating() *
-                        trek.getNumRatings();
-                double newAvgRating = (oldRatingTotal + rating.getRating()) /
-                        newNumRatings;
-
-                // Set new trek info
-                trek.setNumRatings(newNumRatings);
-                trek.setAvgRating(newAvgRating);
+                if (registerId == null){
+                    int newNumRatings = trek.getNumRegistered() + 1;
+                    // Set new trek info
+                    trek.setNumRegistered(newNumRatings);
+                }
 
                 // Commit to Firestore
                 transaction.set(trekRef, trek);
-                if (ratingId!=null){
+                if (registerId!=null){
                     Map<String,Object> ratingMap = new HashMap<>();
 
-                    ratingMap.put("rating",rating.getRating());
-                    ratingMap.put("text",rating.getText());
-                    ratingMap.put("coming",rating.getComing());
+                    ratingMap.put("text", register.getText());
+                    ratingMap.put("coming", register.getComing());
 
-                    transaction.update(ratingRefInsertUpdate, ratingMap);
+                    transaction.update(registerRefInsertUpdate, ratingMap);
                 }else{
-                    transaction.set(ratingRefInsertUpdate, rating);
+                    transaction.set(registerRefInsertUpdate, register);
                 }
 
 
@@ -256,8 +243,7 @@ public class TrekDetailActivity extends AppCompatActivity
         String category = trekApplication.getCategoriesTranslationReversedMap().get(trek.getCategory());
 
         mNameView.setText(trek.getName());
-        mRatingIndicator.setRating((float) trek.getAvgRating());
-        mNumRatingsView.setText(getString(R.string.fmt_num_ratings, trek.getNumRatings()));
+        mNumRatingsView.setText(getString(R.string.fmt_num_registerd, trek.getNumRegistered()));
         mCityView.setText(region);
         mDateView.setText(new SimpleDateFormat("EEE, dd/MM/yyyy")
                 .format(new Date(trek.getTrekStartDate())));
@@ -307,19 +293,18 @@ public class TrekDetailActivity extends AppCompatActivity
             startActivity(intentWhatsapp);
         }
     }
-    @OnClick(R.id.fab_show_rating_dialog)
+    @OnClick(R.id.fab_show_register_dialog)
     public void onAddRatingClicked(View view) {
-        final DocumentReference ratingRef = mTreksRef.collection("ratings")
+        final DocumentReference ratingRef = mTreksRef.collection("registration")
                 .document();
         Query userRating= mTreksRef
-                .collection("ratings")
+                .collection("registration")
                 .whereEqualTo("userId",FirebaseAuth.getInstance().getCurrentUser().getUid());
         userRating.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 String text = null;
-                Double rating = null;
-                String ratingId = null;
+                String registerId = null;
                 boolean isComing = false;
                 if(task.isComplete()){
                     QuerySnapshot queryDocumentSnapshots = task.getResult();
@@ -327,28 +312,28 @@ public class TrekDetailActivity extends AppCompatActivity
 
                     if (documents.size()>0){
                         Map<String, Object> ratingMap  = documents.get(0).getData();
-                        rating = (Double)ratingMap.get("rating");
+
                         text = (String) ratingMap.get("text");
                         isComing = (Boolean) ratingMap.get("coming");
-                        ratingId = documents.get(0).getId();
+                        registerId = documents.get(0).getId();
                     }
-                    newInstance(rating, text, isComing, ratingId).show(getSupportFragmentManager(), RatingDialogFragment.TAG);
+                    newInstance(text, isComing, registerId).show(getSupportFragmentManager(), RegisterTrekDialogFragment.TAG);
                 }
             }
         });
 
 
-        //mRatingDialog.show(getSupportFragmentManager(), RatingDialogFragment.TAG);
+        //mRatingDialog.show(getSupportFragmentManager(), RegisterTrekDialogFragment.TAG);
     }
 
     @Override
-    public void onRating(Rating rating, String ratingId) {
-        // In a transaction, add the new rating and update the aggregate totals
-        addRating(mTreksRef, rating, ratingId)
+    public void onRegister(Register register, String ratingId) {
+        // In a transaction, add the new register and update the aggregate totals
+        registerTrek(mTreksRef, register, ratingId)
                 .addOnSuccessListener(this, new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "Rating added");
+                        Log.d(TAG, "Register added");
 
                         // Hide keyboard and scroll to top
                         hideKeyboard();
@@ -358,11 +343,11 @@ public class TrekDetailActivity extends AppCompatActivity
                 .addOnFailureListener(this, new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Add rating failed", e);
+                        Log.w(TAG, "Add register failed", e);
 
                         // Show failure message and hide keyboard
                         hideKeyboard();
-                        Snackbar.make(findViewById(android.R.id.content), "Failed to add rating",
+                        Snackbar.make(findViewById(android.R.id.content), "Failed to add register",
                                 Snackbar.LENGTH_SHORT).show();
                     }
                 });
@@ -375,15 +360,14 @@ public class TrekDetailActivity extends AppCompatActivity
                     .hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
-    public static RatingDialogFragment newInstance(Double rating,String text,boolean isComing, String ratingId) {
-        RatingDialogFragment f = new RatingDialogFragment();
+    public static RegisterTrekDialogFragment newInstance(String text, boolean isComing, String registerId) {
+        RegisterTrekDialogFragment f = new RegisterTrekDialogFragment();
 
         // Supply num input as an argument.
         Bundle args = new Bundle();
-        args.putDouble("rating", rating == null ? 0 : rating.doubleValue());
         args.putString("text", text);
         args.putBoolean("coming", isComing);
-        args.putString("ratingId", ratingId);
+        args.putString("registerId", registerId);
         f.setArguments(args);
 
         return f;

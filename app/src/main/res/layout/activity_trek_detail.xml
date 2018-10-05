@@ -23,10 +23,30 @@
 
         <View
             android:layout_width="match_parent"
+
             android:layout_height="200dp"
+
+            android:layout_alignParentTop="true"
+
+            android:layout_marginTop="0dp"
             android:background="@drawable/gradient_up" />
 
         <!-- Back button -->
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_show_whatsapp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/trek_name"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginStart="14dp"
+            android:layout_marginLeft="330dp"
+            android:backgroundTint="@color/fui_bgPhone"
+            android:layout_marginRight="14dp"
+            android:layout_marginBottom="-169dp"
+            app:srcCompat="@drawable/ic_chat_bubble_outline_white_24dp" />
+
         <ImageView
             android:id="@+id/trek_button_back"
             android:layout_width="wrap_content"
@@ -41,7 +61,7 @@
             style="@style/AppTheme.Title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/trek_rating"
+
             android:layout_marginLeft="8dp"
             android:lines="3"
             android:gravity="center"
@@ -51,26 +71,14 @@
             android:textStyle="bold"
             tools:text="Some Restaurant" />
 
-        <me.zhanghai.android.materialratingbar.MaterialRatingBar
-            android:id="@+id/trek_rating"
-            style="@style/Widget.MaterialRatingBar.RatingBar.Indicator"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:layout_above="@+id/trek_category"
-            android:layout_alignLeft="@+id/trek_name"
-            app:mrb_progressTint="@android:color/white"
-            app:mrb_secondaryProgressTint="@android:color/white" />
-
         <TextView
             android:id="@+id/trek_num_ratings"
-            style="@style/AppTheme.Body1"
+            style="@style/AppTheme.Subheader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/trek_rating"
-            android:layout_alignTop="@+id/trek_rating"
+            android:layout_alignTop="@+id/trek_city"
             android:layout_marginLeft="4dp"
-            android:layout_toRightOf="@+id/trek_rating"
-            android:gravity="center"
+            android:layout_toRightOf="@+id/trek_city"
             android:textColor="@android:color/white"
             tools:text="(10)" />
 
@@ -122,13 +130,18 @@
             android:layout_toRightOf="@+id/trek_city_divider"
             android:textColor="@android:color/white"
             tools:text="San Francisco" />
+        <TextView
+            android:id="@+id/txtLink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
 
+            android:autoLink="all" />
 
 
     </RelativeLayout>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_show_rating_dialog"
+        android:id="@+id/fab_show_register_dialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/trek_top_card"
@@ -148,7 +161,7 @@
         android:paddingBottom="16dp"
         android:paddingTop="28dp"
         android:visibility="gone"
-        tools:listitem="@layout/item_rating" />
+        tools:listitem="@layout/item_register" />
 
     <!-- View for empty ratings -->
     <LinearLayout
@@ -164,7 +177,9 @@
         tools:visibility="visible">
 
         <ImageView
-            android:src="@drawable/pizza_monster"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_menu_edit"
             style="@style/AppTheme.PizzaGuy" />
 
         <TextView
