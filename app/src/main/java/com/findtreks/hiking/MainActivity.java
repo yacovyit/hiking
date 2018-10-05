@@ -19,7 +19,9 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -33,20 +35,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.findtreks.hiking.adapter.TrekAdapter;
-import com.findtreks.hiking.model.Trek;
-import com.findtreks.hiking.util.TrekUtil;
 import com.findtreks.hiking.viewmodel.MainActivityViewModel;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 
-import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -73,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements
     TextView mCurrentSearchView;
 
     @BindView(R.id.recycler_restaurants)
-    RecyclerView mRestaurantsRecycler;
+    RecyclerView mTreksRecycler;
 
     @BindView(R.id.view_empty)
     ViewGroup mEmptyView;;
@@ -125,10 +122,10 @@ public class MainActivity extends AppCompatActivity implements
             protected void onDataChanged() {
                 // Show/hide content if the query returns empty.
                 if (getItemCount() == 0) {
-                    mRestaurantsRecycler.setVisibility(View.GONE);
+                    mTreksRecycler.setVisibility(View.GONE);
                     mEmptyView.setVisibility(View.VISIBLE);
                 } else {
-                    mRestaurantsRecycler.setVisibility(View.VISIBLE);
+                    mTreksRecycler.setVisibility(View.VISIBLE);
                     mEmptyView.setVisibility(View.GONE);
                 }
             }
@@ -141,8 +138,10 @@ public class MainActivity extends AppCompatActivity implements
             }
         };
 
-        mRestaurantsRecycler.setLayoutManager(new LinearLayoutManager(this));
-        mRestaurantsRecycler.setAdapter(mAdapter);
+        mTreksRecycler.setLayoutManager(new LinearLayoutManager(this));
+        mTreksRecycler.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+
+        mTreksRecycler.setAdapter(mAdapter);
     }
 
     @Override
