@@ -23,7 +23,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Spinner;
-import com.findtreks.hiking.model.Trek;
+
 import com.findtreks.hiking.util.TrekUtil;
 import com.google.firebase.firestore.Query;
 
@@ -54,11 +54,9 @@ public class FilterDialogFragment extends DialogFragment {
     @BindView(R.id.spinner_region)
     Spinner mCitySpinner;
 
-    @BindView(R.id.spinner_sort)
-    Spinner mSortSpinner;
 
-    @BindView(R.id.spinner_price)
-    Spinner mPriceSpinner;
+    @BindView(R.id.spinner_date)
+    Spinner mDateSpinner;
 
     private FilterListener mFilterListener;
 
@@ -124,11 +122,11 @@ public class FilterDialogFragment extends DialogFragment {
         }
     }
     private String getSelectedTrekDatePeriod(){
-        String selected = (String) mPriceSpinner.getSelectedItem();
+        String selected = (String) mDateSpinner.getSelectedItem();
         return selected;
     }
     private long[] getSelectedTrekDate() {
-        String selected = (String) mPriceSpinner.getSelectedItem();
+        String selected = (String) mDateSpinner.getSelectedItem();
         Calendar c = Calendar.getInstance();
         TrekUtil.setStartOfDateCalender(c);
         long[] startEndTime = new long[2];
@@ -181,45 +179,19 @@ public class FilterDialogFragment extends DialogFragment {
             c.set(Calendar.DATE, c.getActualMaximum(Calendar.DAY_OF_MONTH));
             startEndTime[1] = c.getTimeInMillis();
         } else {
-            return null;
+            //on selecting any time then just show treks from today
+            startEndTime[0] = c.getTimeInMillis();
+            //zero indicate ignore filtering end date
+            startEndTime[1] = 0;
         }
         return startEndTime;
-    }
-
-    @Nullable
-    private String getSelectedSortBy() {
-        String selected = (String) mSortSpinner.getSelectedItem();
-        if (getString(R.string.sort_by_rating).equals(selected)) {
-            return Trek.FIELD_AVG_RATING;
-        } if (getString(R.string.sort_by_time).equals(selected)) {
-            return Trek.FIELD_TREK_DATE;
-        } if (getString(R.string.sort_by_popularity).equals(selected)) {
-            return Trek.FIELD_POPULARITY;
-        }
-
-        return null;
-    }
-
-    @Nullable
-    private Query.Direction getSortDirection() {
-        String selected = (String) mSortSpinner.getSelectedItem();
-        if (getString(R.string.sort_by_rating).equals(selected)) {
-            return Query.Direction.DESCENDING;
-        } if (getString(R.string.sort_by_time).equals(selected)) {
-            return Query.Direction.ASCENDING;
-        } if (getString(R.string.sort_by_popularity).equals(selected)) {
-            return Query.Direction.DESCENDING;
-        }
-
-        return null;
     }
 
     public void resetFilters() {
         if (mRootView != null) {
             mCategorySpinner.setSelection(0);
             mCitySpinner.setSelection(0);
-            mPriceSpinner.setSelection(0);
-            mSortSpinner.setSelection(0);
+            mDateSpinner.setSelection(0);
         }
     }
 
@@ -239,8 +211,6 @@ public class FilterDialogFragment extends DialogFragment {
             filters.setRegion(region);
             filters.setTrekTimePeriod(trekTimePeriod);
             filters.setTrekTime(getSelectedTrekDate());
-            filters.setSortBy(getSelectedSortBy());
-            filters.setSortDirection(getSortDirection());
         }
 
         return filters;

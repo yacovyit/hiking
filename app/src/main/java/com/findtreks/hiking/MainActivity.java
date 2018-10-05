@@ -34,6 +34,7 @@ import android.widget.Toast;
 
 import com.findtreks.hiking.adapter.TrekAdapter;
 import com.findtreks.hiking.model.Trek;
+import com.findtreks.hiking.util.TrekUtil;
 import com.findtreks.hiking.viewmodel.MainActivityViewModel;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
@@ -43,6 +44,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 
@@ -69,9 +71,6 @@ public class MainActivity extends AppCompatActivity implements
 
     @BindView(R.id.text_current_search)
     TextView mCurrentSearchView;
-
-    @BindView(R.id.text_current_sort_by)
-    TextView mCurrentSortByView;
 
     @BindView(R.id.recycler_restaurants)
     RecyclerView mRestaurantsRecycler;
@@ -199,11 +198,21 @@ public class MainActivity extends AppCompatActivity implements
         // Trek date (equality filter)
         long[] trekTime = filters.getTrekTime();
         if (filters.hasTrekDate() && trekTime != null) {
-            //grater then start date
-            query = query.whereGreaterThanOrEqualTo("trekStartDate", trekTime[0]);
-            //less then end date
-            query = query.whereLessThanOrEqualTo("trekStartDate", trekTime[1]);
-            query = query.orderBy("trekStartDate", Query.Direction.ASCENDING);
+           boolean dateIsFilterd = false;
+            if (trekTime[0] > 0){
+                //grater then start date
+                query = query.whereGreaterThanOrEqualTo("trekStartDate", trekTime[0]);
+                dateIsFilterd = true;
+            }
+            if (trekTime[1] > 0){
+                //less then end date
+                query = query.whereLessThanOrEqualTo("trekStartDate", trekTime[1]);
+                dateIsFilterd = true;
+            }
+            if (dateIsFilterd){
+                query = query.orderBy("trekStartDate", Query.Direction.ASCENDING);
+            }
+
 
         }
 
@@ -221,7 +230,6 @@ public class MainActivity extends AppCompatActivity implements
 
         // Set header
         mCurrentSearchView.setText(Html.fromHtml(filters.getSearchDescription(this)));
-        mCurrentSortByView.setText(filters.getOrderDescription(this));
 
         // Save filters
         mViewModel.setFilters(filters);

@@ -19,7 +19,10 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.findtreks.hiking.model.Trek;
+import com.findtreks.hiking.util.TrekUtil;
 import com.google.firebase.firestore.Query;
+
+import java.util.Calendar;
 
 /**
  * Object for passing filters around.
@@ -37,8 +40,16 @@ public class Filters {
 
     public static Filters getDefault() {
         Filters filters = new Filters();
-        filters.setSortBy(Trek.FIELD_AVG_RATING);
-        filters.setSortDirection(Query.Direction.DESCENDING);
+        filters.setSortBy(Trek.FIELD_TREK_DATE);
+        filters.setSortDirection(Query.Direction.ASCENDING);
+
+        //show trek only from today
+        Calendar c = Calendar.getInstance();
+        TrekUtil.setStartOfDateCalender(c);
+        long[] startEndDate = new long[2];
+        startEndDate[0] = c.getTimeInMillis();
+        startEndDate[1] = 0;
+        filters.setTrekTime(startEndDate);
 
         return filters;
     }
