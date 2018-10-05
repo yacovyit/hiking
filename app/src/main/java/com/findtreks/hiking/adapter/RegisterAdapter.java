@@ -39,9 +39,9 @@ import butterknife.ButterKnife;
 /**
  * RecyclerView adapter for a bunch of Ratings.
  */
-public class RatingAdapter extends FirestoreAdapter<RatingAdapter.ViewHolder> {
+public class RegisterAdapter extends FirestoreAdapter<RegisterAdapter.ViewHolder> {
 
-    public RatingAdapter(Query query) {
+    public RegisterAdapter(Query query) {
         super(query);
     }
 

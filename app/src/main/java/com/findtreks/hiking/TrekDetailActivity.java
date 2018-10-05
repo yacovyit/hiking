@@ -37,7 +37,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.findtreks.hiking.adapter.RatingAdapter;
+import com.findtreks.hiking.adapter.RegisterAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -103,7 +103,7 @@ public class TrekDetailActivity extends AppCompatActivity
     private DocumentReference mTreksRef;
     private ListenerRegistration mTrekRegistration;
 
-    private RatingAdapter mRatingAdapter;
+    private RegisterAdapter mRegisterAdapter;
     private StorageReference storageReference;
 
     @Override
@@ -133,7 +133,7 @@ public class TrekDetailActivity extends AppCompatActivity
                 .limit(50);
 
         // RecyclerView
-        mRatingAdapter = new RatingAdapter(ratingsQuery) {
+        mRegisterAdapter = new RegisterAdapter(ratingsQuery) {
             @Override
             protected void onDataChanged() {
                 if (getItemCount() == 0) {
@@ -147,7 +147,7 @@ public class TrekDetailActivity extends AppCompatActivity
         };
 
         mRatingsRecycler.setLayoutManager(new LinearLayoutManager(this));
-        mRatingsRecycler.setAdapter(mRatingAdapter);
+        mRatingsRecycler.setAdapter(mRegisterAdapter);
 
         //mRatingDialog = new RegisterTrekDialogFragment();
     }
@@ -156,7 +156,7 @@ public class TrekDetailActivity extends AppCompatActivity
     public void onStart() {
         super.onStart();
 
-        mRatingAdapter.startListening();
+        mRegisterAdapter.startListening();
         mTrekRegistration = mTreksRef.addSnapshotListener(this);
     }
 
@@ -164,7 +164,7 @@ public class TrekDetailActivity extends AppCompatActivity
     public void onStop() {
         super.onStop();
 
-        mRatingAdapter.stopListening();
+        mRegisterAdapter.stopListening();
 
         if (mTrekRegistration != null) {
             mTrekRegistration.remove();
@@ -305,7 +305,7 @@ public class TrekDetailActivity extends AppCompatActivity
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 String text = null;
                 String registerId = null;
-                boolean isComing = false;
+                boolean isComing = true;
                 if(task.isComplete()){
                     QuerySnapshot queryDocumentSnapshots = task.getResult();
                     List<DocumentSnapshot> documents = queryDocumentSnapshots.getDocuments();
