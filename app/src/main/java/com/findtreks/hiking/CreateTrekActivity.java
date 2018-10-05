@@ -173,8 +173,6 @@ public class CreateTrekActivity extends AppCompatActivity implements DatePickerD
     }
     private boolean isEnabled(){
         boolean isEnabled =
-                uuidTrekImage != null &&
-                imageUploaded &&
                 mDatePicker != null &&
                 mCategorySpinner.getSelectedItemPosition() > 0 &&
                 mRegionSpinner.getSelectedItemPosition() > 0 &&

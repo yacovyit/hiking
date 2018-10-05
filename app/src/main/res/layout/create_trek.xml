@@ -19,14 +19,39 @@
         android:layout_width="100dp"
         android:layout_gravity="center"
         android:layout_height="100dp"
-        android:layout_margin="4dp"
+
         android:alpha="1.0"
         android:tint="@android:color/darker_gray"
         android:scaleType="fitXY"
         app:srcCompat="@drawable/ic_add_a_photo_black_24dp"
         />
 
+    <!-- Trek Details -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
+        <ImageView
+            android:id="@+id/icon_trek_details"
+            style="@style/AppTheme.FilterIcon"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="8dp"
+            android:tint="@color/greySecondary"
+            app:srcCompat="@drawable/ic_create_white_24dp" />
+
+        <EditText
+            android:id="@+id/edit_trek_details"
+            android:layout_centerVertical="true"
+            android:minLines="1"
+            android:maxLines="3"
+            android:maxLength="250"
+            android:layout_toRightOf="@+id/icon_trek_details"
+            android:hint="@string/hint_trek_details"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent" />
+
+    </RelativeLayout>
     <!-- Trek Type -->
     <RelativeLayout
         android:layout_width="match_parent"
@@ -116,35 +141,12 @@
             android:layout_toRightOf="@+id/icon_trek_whatsapp_groupo"
             android:hint="@string/whatsapp_group"
             android:minLines="1"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent" />
-
-    </RelativeLayout>
-    <!-- Trek Details -->
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/icon_trek_details"
-            style="@style/AppTheme.FilterIcon"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="8dp"
-            android:tint="@color/greySecondary"
-            app:srcCompat="@drawable/ic_create_white_24dp" />
-
-        <EditText
-            android:id="@+id/edit_trek_details"
-            android:layout_centerVertical="true"
             android:maxLines="2"
-            android:maxLength="250"
-            android:layout_toRightOf="@+id/icon_trek_details"
-            android:hint="@string/hint_trek_details"
             android:layout_height="wrap_content"
             android:layout_width="match_parent" />
 
     </RelativeLayout>
+
 
     <!-- Cancel and apply buttons -->
     <LinearLayout
