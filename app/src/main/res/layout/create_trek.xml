@@ -7,36 +7,40 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="16dp">
-
     <TextView
         style="@style/AppTheme.Title"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:text="@string/create_trek" />
+        android:text="@string/create_trek"
+        tools:hint="@string/hint_trek_details" />
     <ImageView
         android:id="@+id/image_view_trek"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_width="100dp"
+        android:layout_gravity="center"
+        android:layout_height="100dp"
+        android:layout_margin="4dp"
         android:alpha="1.0"
-        android:background="@drawable/image_border"
         android:tint="@android:color/darker_gray"
-        android:scaleType="fitCenter"
+        android:scaleType="fitXY"
         app:srcCompat="@drawable/ic_add_a_photo_black_24dp"
         />
 
 
-    <!-- Food Type -->
+    <!-- Trek Type -->
     <RelativeLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/icon_category"
             style="@style/AppTheme.FilterIcon"
+            android:layout_alignParentLeft="true"
+
             android:layout_centerVertical="true"
+            android:layout_marginLeft="8dp"
             android:tint="@color/greySecondary"
-            app:srcCompat="@drawable/ic_trending_up_white_24dp" />
+            app:srcCompat="@drawable/ic_directions_run_white_24dp" />
 
         <Spinner
             android:id="@+id/spinner_category"
@@ -55,7 +59,9 @@
         <ImageView
             android:id="@+id/icon_city"
             style="@style/AppTheme.FilterIcon"
+            android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="8dp"
             android:tint="@color/greySecondary"
             app:srcCompat="@drawable/ic_place_white_24px" />
 
@@ -67,6 +73,8 @@
             android:entries="@array/regions_create" />
 
     </RelativeLayout>
+
+
     <!-- Trek Date -->
     <RelativeLayout
         android:layout_width="match_parent"
@@ -89,7 +97,6 @@
             android:layout_toRightOf="@+id/icon_trek_date"/>
 
     </RelativeLayout>
-    <!-- Trek Details -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -109,12 +116,11 @@
             android:layout_toRightOf="@+id/icon_trek_whatsapp_groupo"
             android:hint="@string/whatsapp_group"
             android:minLines="1"
-
             android:layout_height="wrap_content"
             android:layout_width="match_parent" />
 
     </RelativeLayout>
-
+    <!-- Trek Details -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -131,10 +137,10 @@
         <EditText
             android:id="@+id/edit_trek_details"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/icon_trek_details"
-            android:hint="@string/hint_trek_details"
             android:maxLines="2"
             android:maxLength="250"
+            android:layout_toRightOf="@+id/icon_trek_details"
+            android:hint="@string/hint_trek_details"
             android:layout_height="wrap_content"
             android:layout_width="match_parent" />
 

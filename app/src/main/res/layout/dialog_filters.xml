@@ -9,22 +9,25 @@
 
     <TextView
         style="@style/AppTheme.Title"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:text="@string/header_filters" />
 
     <!-- Food Type -->
     <RelativeLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/icon_category"
             style="@style/AppTheme.FilterIcon"
+            android:layout_alignParentLeft="true"
+
             android:layout_centerVertical="true"
+            android:layout_marginLeft="8dp"
             android:tint="@color/greySecondary"
-            app:srcCompat="@drawable/ic_trending_up_white_24dp" />
+            app:srcCompat="@drawable/ic_directions_run_white_24dp" />
 
         <Spinner
             android:id="@+id/spinner_category"
@@ -43,7 +46,9 @@
         <ImageView
             android:id="@+id/icon_city"
             style="@style/AppTheme.FilterIcon"
+            android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="8dp"
             android:tint="@color/greySecondary"
             app:srcCompat="@drawable/ic_place_white_24px" />
 
@@ -64,7 +69,9 @@
         <ImageView
             android:id="@+id/icon_trek_date"
             style="@style/AppTheme.FilterIcon"
+            android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="8dp"
             android:tint="@color/greySecondary"
             app:srcCompat="@drawable/ic_today_white_24dp" />
 
@@ -85,7 +92,9 @@
         <ImageView
             android:id="@+id/icon_sort"
             style="@style/AppTheme.FilterIcon"
+            android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="8dp"
             android:tint="@color/greySecondary"
             app:srcCompat="@drawable/ic_sort_white_24px" />
 

@@ -31,21 +31,7 @@
             android:layout_marginTop="0dp"
             android:background="@drawable/gradient_up" />
 
-        <!-- Back button -->
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab_show_whatsapp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/trek_name"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginStart="14dp"
-            android:layout_marginLeft="330dp"
-            android:backgroundTint="@color/fui_bgPhone"
-            android:layout_marginRight="14dp"
-            android:layout_marginBottom="-169dp"
-            app:srcCompat="@drawable/ic_chat_bubble_outline_white_24dp" />
+
 
         <ImageView
             android:id="@+id/trek_button_back"
@@ -53,7 +39,8 @@
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
             android:layout_alignLeft="@+id/trek_name"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="-26dp"
             app:srcCompat="@drawable/ic_close_white_24px" />
 
         <TextView
@@ -62,8 +49,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-            android:layout_marginLeft="8dp"
-            android:lines="3"
+            android:layout_marginLeft="30dp"
+            android:lines="6"
             android:gravity="center"
             android:layout_marginTop="8dp"
 
@@ -139,13 +126,24 @@
 
 
     </RelativeLayout>
+    <!-- Back button -->
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_show_whatsapp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fab_show_register_dialog"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="16dp"
 
+        android:backgroundTint="@color/fui_bgPhone"
+
+        app:srcCompat="@drawable/ic_chat_bubble_outline_white_24dp" />
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_show_register_dialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/trek_top_card"
-        android:layout_alignParentRight="true"
+
         android:layout_marginBottom="-28dp"
         android:layout_marginRight="16dp"
         app:srcCompat="@drawable/ic_add_white_24px" />

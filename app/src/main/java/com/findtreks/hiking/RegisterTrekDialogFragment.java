@@ -67,7 +67,7 @@ public class RegisterTrekDialogFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.dialog_rating, container, false);
+        View v = inflater.inflate(R.layout.dialog_register, container, false);
         ButterKnife.bind(this, v);
         mRatingText.setText(text);
 

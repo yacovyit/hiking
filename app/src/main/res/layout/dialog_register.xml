@@ -18,6 +18,7 @@
         android:layout_height="wrap_content"
         android:textOn="@string/coming"
         android:layout_gravity="center"
+        android:checked="true"
         android:textOff="@string/not_coming"
         android:text="ToggleButton" />
 

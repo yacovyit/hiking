@@ -20,7 +20,7 @@
     <string name="all_treks">כל הטיולים</string>
     <string name="sorted_by_registration">ממויין לפי כמות נרשמים</string>
     <string name="sort_by_popularity">מיין לפי פופולאריות</string>
-    <string name="hint_register">מחשבות על הטיול?</string>
+    <string name="hint_register">מחשבות על הטיול? טלפון ...</string>
     <string name="sorted_by_time">ממויין לפי זמן</string>
     <string name="sort_by_time">מיין לפי זמן</string>
     <string name="sorted_by_rating">ממויין לפי דרוג</string>
@@ -99,7 +99,7 @@
     <string name="time_next_week">שבוע הבא</string>
     <string name="time_this_month">החודש</string>
     <string name="time_next_month">חודש הבא</string>
-    <string name="coming">ברור שאבוא</string>
+    <string name="coming">מגיע</string>
     <string name="not_coming">לא אגיע</string>
     <string name="whatsapp_group">קישור לקבוצת וואטסאפ</string>
 
