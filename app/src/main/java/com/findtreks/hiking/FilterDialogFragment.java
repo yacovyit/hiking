@@ -139,8 +139,8 @@ public class FilterDialogFragment extends DialogFragment {
             startEndTime[1] = c.getTimeInMillis();
         } else if (selected.equals(getString(R.string.time_tomorrow))) {
             //start time and end time with diff of 1 day
-            startEndTime[0] = c.getTimeInMillis();
             c.add(Calendar.DATE, 1);
+            startEndTime[0] = c.getTimeInMillis();
             startEndTime[1] = c.getTimeInMillis();
         } else if (selected.equals(getString(R.string.time_this_week))) {
             startEndTime[0] = c.getTimeInMillis();
