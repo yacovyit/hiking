@@ -16,7 +16,12 @@
  package com.findtreks.hiking.adapter;
 
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.media.ImageWriter;
 import android.net.Uri;
+import android.os.AsyncTask;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -25,6 +30,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.findtreks.hiking.DownloadFilesTask;
 import com.findtreks.hiking.R;
 import com.findtreks.hiking.TrekApplication;
 import com.findtreks.hiking.model.Trek;
@@ -36,6 +43,11 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import org.afinal.simplecache.ACache;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -100,33 +112,34 @@ public class TrekAdapter extends FirestoreAdapter<TrekAdapter.ViewHolder> {
         public void bind(final DocumentSnapshot snapshot,
                          final OnTrekSelectedListener listener) {
 
-            TrekApplication trekApplication = (TrekApplication)(itemView.getContext().getApplicationContext());
+            final TrekApplication trekApplication = (TrekApplication)(itemView.getContext().getApplicationContext());
 
-            Trek trek = snapshot.toObject(Trek.class);
+            final Trek trek = snapshot.toObject(Trek.class);
             Resources resources = itemView.getResources();
 
             String region = trekApplication.getRegionsTranslationReversedMap().get(trek.getCity());
             String category = trekApplication.getCategoriesTranslationReversedMap().get(trek.getCategory());
 
-            storageReference.child("images/" + trek.getPhoto())
-                    .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                @Override
-                public void onSuccess(Uri uri) {
-                    // Got the download URL for 'users/me/profile.png'
-                    Picasso.get().load(uri).into(imageView);
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception exception) {
-                    // Handle any errors
-                }
-            });
-            // Load image
-           /* Glide.with(imageView.getContext())
 
-                    .using(new FirebaseImageLoader())
-                    .load(storageReference.child("images/" + trek.getPhoto()))
-                    .into(imageView);*/
+            Bitmap trekImage = trekApplication.getmCache().getAsBitmap(trek.getPhoto());
+            if (trekImage != null){
+                imageView.setImageBitmap(trekImage);
+            }else{
+                storageReference.child("images/" + trek.getPhoto())
+                        .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        // Got the download URL for 'users/me/profile.png'
+                       new DownloadFilesTask(imageView, trek.getPhoto()).execute(uri);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        // Handle any errors
+                    }
+                });
+            }
+
 
             nameView.setText(trek.getName());
             regionView.setText(region);

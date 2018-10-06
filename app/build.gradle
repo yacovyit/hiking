@@ -60,6 +60,8 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.google.firebase:firebase-storage:16.0.1'
 
+    compile 'org.afinal.simplecache:a-simple-cache:1.0'
+
 }
 
 apply plugin: 'com.google.gms.google-services'

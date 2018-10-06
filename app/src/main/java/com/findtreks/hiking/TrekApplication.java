@@ -4,20 +4,29 @@ import android.app.Application;
 
 import com.findtreks.hiking.util.TranslationUtil;
 
+import org.afinal.simplecache.ACache;
+
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class TrekApplication extends Application {
     private Map<String,String> categoriesTranslationMap, categoriesTranslationReversedMap;
     private Map<String,String> regionsTranslationMap,regionsTranslationReversedMap;
     private Map<String,String> trekDateTranslationMap, trekDateTranslationReversedMap;
     private Locale defaultLocale = new Locale("en");
+    //images cache
+    private ACache mCache ;
+
     @Override
     public void onCreate() {
         super.onCreate();
         initTranslationsMappers();
+        initCache();
+
+    }
+    private void initCache() {
+        mCache = ACache.get(this);
     }
     private void initTranslationsMappers(){
         initCategoriesTranslationMap();
@@ -79,5 +88,9 @@ public class TrekApplication extends Application {
 
     public Map<String, String> getTrekDateTranslationReversedMap() {
         return trekDateTranslationReversedMap;
+    }
+
+    public ACache getmCache() {
+        return mCache;
     }
 }

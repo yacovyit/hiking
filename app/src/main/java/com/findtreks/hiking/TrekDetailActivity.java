@@ -17,6 +17,7 @@
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -254,25 +255,29 @@ public class TrekDetailActivity extends AppCompatActivity
             mFabWhatsappGroup.setEnabled(false);
             mFabWhatsappGroup.setTag(null);
         }
+        final String imageId = trek.getPhoto();
 
+        Bitmap trekImage = trekApplication.getmCache().getAsBitmap(trek.getPhoto());
+        if (trekImage != null){
+            mImageView.setImageBitmap(trekImage);
+        }else{
+            storageReference.child("images/" + trek.getPhoto())
+                    .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    // Got the download URL for 'users/me/profile.png'
+                    Picasso.get().load(uri).into(mImageView);
+                    new DownloadFilesTask(mImageView, imageId).execute(uri);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Handle any errors
+                }
+            });
 
-        storageReference.child("images/" + trek.getPhoto())
-                .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                // Got the download URL for 'users/me/profile.png'
-                Picasso.get().load(uri).into(mImageView);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle any errors
-            }
-        });
-       /* // Background image
-        Glide.with(mImageView.getContext())
-                .load(trek.getPhoto())
-                .into(mImageView);*/
+        }
+
     }
 
     @OnClick(R.id.trek_button_back)
@@ -322,8 +327,6 @@ public class TrekDetailActivity extends AppCompatActivity
             }
         });
 
-
-        //mRatingDialog.show(getSupportFragmentManager(), RegisterTrekDialogFragment.TAG);
     }
 
     @Override
