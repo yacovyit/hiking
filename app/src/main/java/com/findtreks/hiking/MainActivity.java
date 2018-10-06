@@ -19,7 +19,6 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -69,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements
     @BindView(R.id.text_current_search)
     TextView mCurrentSearchView;
 
-    @BindView(R.id.recycler_restaurants)
+    @BindView(R.id.recycler_treks)
     RecyclerView mTreksRecycler;
 
     @BindView(R.id.view_empty)
