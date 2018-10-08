@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingTop="16dp"
     android:paddingLeft="16dp"
     android:paddingRight="16dp">
@@ -31,14 +31,16 @@
     <TextView
         android:id="@+id/rating_item_date"
         style="@style/AppTheme.Body1"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/greySecondary"
+        android:layout_alignLeft="@+id/rating_item_name"
+
+        android:layout_marginLeft="0dp"
+
         android:layout_toLeftOf="@+id/rating_item_rating"
-        android:layout_toRightOf="@+id/rating_item_divider"
-        tools:text="9/27/2017"
-        android:layout_toStartOf="@+id/rating_item_rating"
-        android:layout_toEndOf="@+id/rating_item_divider" />
+        android:gravity="center"
+        android:textColor="@color/greySecondary"
+        tools:text="9/27/2017" />
 
     <TextView
         android:id="@+id/rating_item_text"
@@ -65,10 +67,9 @@
         android:layout_below="@+id/rating_item_text"
         android:layout_alignParentLeft="true"
         android:textOn="@string/coming"
-        android:gravity="center"
         android:enabled="false"
+        android:gravity="center"
         android:textOff="@string/not_coming" />
-
     <Button
         android:visibility="invisible"
         android:id="@+id/imageButtonPhone"
@@ -78,5 +79,5 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="-4dp"
         android:drawableLeft="@android:drawable/sym_action_call"
-        />
+         />
 </RelativeLayout>
